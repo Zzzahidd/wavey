@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeroInteractiveCanvas } from './HeroInteractiveCanvas';
+import { Navbar } from './Navbar';
 import { OpenAIChatBox } from './OpenAIChatBox';
 import { HeroDashboardPreview } from './HeroDashboardPreview';
 import { 
@@ -10,10 +11,16 @@ import {
   Lightbulb,
   Sparkles
 } from 'lucide-react';
+import { User } from '../lib/types';
 
 interface HeroSectionProps {
   onSendMessage: (prompt: string, model: string) => void;
   isLoading?: boolean;
+  user: User | null;
+  onOpenSignIn: () => void;
+  onOpenSignUp: () => void;
+  onOpenApp: () => void;
+  onLogout: () => void;
 }
 
 const ACTION_PILLS = [
@@ -24,20 +31,37 @@ const ACTION_PILLS = [
   { id: 'brainstorm', label: 'Brainstorm ideas', icon: Lightbulb, prompt: 'Brainstorm 5 ambitious full-stack software applications to build with Wavey' },
 ];
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage, isLoading }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ 
+  onSendMessage, 
+  isLoading,
+  user,
+  onOpenSignIn,
+  onOpenSignUp,
+  onOpenApp,
+  onLogout
+}) => {
   return (
     <section className="relative w-full overflow-hidden">
       
       {/* =========================================================================
           TOP HERO BANNER WITH CONTINUOUS ANIMATED GRADIENT & TEXTURE
          ========================================================================= */}
-      <div className="relative min-h-[460px] sm:min-h-[500px] flex flex-col items-center justify-center pt-16 pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="relative min-h-[560px] sm:min-h-[620px] flex flex-col justify-between pt-4 pb-20 px-3 sm:px-6 lg:px-8">
         
         {/* Animated Gradient & Texture Canvas Backdrop */}
         <HeroInteractiveCanvas />
 
-        {/* Content Container */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+        {/* 1. Exact Top Floating White Navbar */}
+        <Navbar 
+          user={user}
+          onOpenSignIn={onOpenSignIn}
+          onOpenSignUp={onOpenSignUp}
+          onOpenApp={onOpenApp}
+          onLogout={onLogout}
+        />
+
+        {/* 2. Content Container */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center mt-10 mb-4">
           
           {/* Main Display Headline (Helvetica Bold Italic) */}
           <h1 
@@ -62,6 +86,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage, isLoadi
           </div>
 
         </div>
+
+        {/* Spacer to balance bottom */}
+        <div className="h-4"></div>
 
       </div>
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from './lib/types';
 import { getStoredUser, clearAuthToken } from './lib/api';
-import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AgentArchitectureSection } from './components/AgentArchitectureSection';
 import { DeveloperIntelligenceBento } from './components/DeveloperIntelligenceBento';
@@ -49,7 +48,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-zinc-900 font-sans selection:bg-[#5E1312] selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-[#FDFDFD] text-zinc-900 font-sans selection:bg-[#111111] selection:text-white flex flex-col justify-between">
       
       {/* View Switcher: Dedicated Chatbox Workspace vs Marketing Landing Page */}
       {viewMode === 'app' ? (
@@ -64,19 +63,17 @@ export default function App() {
         />
       ) : (
         <>
-          {/* Top Sticky Navbar */}
-          <Navbar
-            user={user}
-            onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
-            onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
-            onOpenApp={() => setViewMode('app')}
-            onLogout={handleLogout}
-          />
-
           {/* Main Landing Page Content */}
           <main className="flex-1">
-            {/* 1. Hero Section */}
-            <HeroSection onSendMessage={handleHeroSendMessage} />
+            {/* 1. Hero Section (With embedded floating Navbar matching Design preview.png) */}
+            <HeroSection 
+              onSendMessage={handleHeroSendMessage}
+              user={user}
+              onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
+              onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
+              onOpenApp={() => setViewMode('app')}
+              onLogout={handleLogout}
+            />
 
             {/* 2. Architecture Stack */}
             <AgentArchitectureSection />
@@ -102,7 +99,7 @@ export default function App() {
         </>
       )}
 
-      {/* Auth Modals (Sign In & Create Account matching screenshots) */}
+      {/* Auth Modals (Sign In & Create Account matching screenshots with favicon.png centered logo) */}
       <AuthModals
         isOpen={authModal.isOpen}
         mode={authModal.mode}

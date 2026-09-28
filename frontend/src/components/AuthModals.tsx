@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { User } from '../lib/types';
 import { loginWithGoogle } from '../lib/api';
+import faviconImg from '../assets/favicon.png';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -57,15 +58,13 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           <X className="w-4 h-4" />
         </button>
 
-        {/* Top Centered Maroon Spiral Wave Logo (Matches Logo on the log in page.svg) */}
+        {/* Top Centered Favicon Logo (Matches assests/favicon.png) */}
         <div className="flex justify-center mb-6 pt-2">
-          <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-md flex items-center justify-center bg-[#5E1312]">
-            <img 
-              src="/Logo on the log in page.svg" 
-              alt="Wavey Logo" 
-              className="w-full h-full object-cover select-none"
-            />
-          </div>
+          <img 
+            src={faviconImg} 
+            alt="Wavey" 
+            className="w-14 h-14 rounded-2xl shadow-md object-contain select-none"
+          />
         </div>
 
         {/* Header Title & Subtitle */}
