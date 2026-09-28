@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { User } from './lib/types';
 import { getStoredUser, clearAuthToken } from './lib/api';
 import { HeroSection } from './components/HeroSection';
-import { AgentArchitectureSection } from './components/AgentArchitectureSection';
+import { TrustEcosystemStrip } from './components/TrustEcosystemStrip';
+import { CoreValueGrid } from './components/CoreValueGrid';
+import { ManifestoQuoteSection } from './components/ManifestoQuoteSection';
+import { FeatureTrioShowcase } from './components/FeatureTrioShowcase';
+import { WorkspaceDeepDiveSection } from './components/WorkspaceDeepDiveSection';
 import { DeveloperIntelligenceBento } from './components/DeveloperIntelligenceBento';
-import { WorkflowNodeCanvas } from './components/WorkflowNodeCanvas';
 import { CapabilitiesMatrix } from './components/CapabilitiesMatrix';
 import { EnterpriseSection } from './components/EnterpriseSection';
 import { PricingSection } from './components/PricingSection';
+import { FinalCtaBanner } from './components/FinalCtaBanner';
 import { DeveloperFooter } from './components/DeveloperFooter';
 import { AuthModals } from './components/AuthModals';
 import { FullChatboxWorkspace } from './components/FullChatboxWorkspace';
@@ -63,9 +67,9 @@ export default function App() {
         />
       ) : (
         <>
-          {/* Main Landing Page Content */}
+          {/* Main Fernand-Inspired Minimalist Landing Page Flow */}
           <main className="flex-1">
-            {/* 1. Hero Section (With embedded floating Navbar matching Design preview.png) */}
+            {/* 1. Hero Section (with floating compact Navbar, animated gradient, chatbox, 5 preview cards) */}
             <HeroSection 
               onSendMessage={handleHeroSendMessage}
               user={user}
@@ -75,31 +79,46 @@ export default function App() {
               onLogout={handleLogout}
             />
 
-            {/* 2. Architecture Stack */}
-            <AgentArchitectureSection />
+            {/* 2. Developer Ecosystem Logo Strip */}
+            <TrustEcosystemStrip />
 
-            {/* 3. Developer Intelligence Bento (White Double-Bezel Cards from Inspirations) */}
+            {/* 3. Core Values 5-Card Horizontal Grid */}
+            <CoreValueGrid />
+
+            {/* 4. Editorial Manifesto Quote Block */}
+            <ManifestoQuoteSection />
+
+            {/* 5. 3-Card Workflow Showcase */}
+            <FeatureTrioShowcase />
+
+            {/* 6. Interactive Workspace Deep-Dive Simulation */}
+            <WorkspaceDeepDiveSection />
+
+            {/* 7. Developer Intelligence Bento (Evals, Cost, Sandbox, CLI Terminal) */}
             <DeveloperIntelligenceBento />
 
-            {/* 4. Visual Workflow Canvas */}
-            <WorkflowNodeCanvas />
-
-            {/* 5. Benchmarks & Capability Matrix */}
+            {/* 8. Benchmarks & Capability Comparison Matrix */}
             <CapabilitiesMatrix />
 
-            {/* 6. Sovereign Enterprise Security */}
+            {/* 9. Sovereign Enterprise Security */}
             <EnterpriseSection />
 
-            {/* 7. Pricing Tiers */}
+            {/* 10. Pricing Tiers */}
             <PricingSection onSelectPlan={() => setAuthModal({ isOpen: true, mode: 'signup' })} />
+
+            {/* 11. Final Conversion CTA Banner */}
+            <FinalCtaBanner 
+              onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
+              onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
+            />
           </main>
 
-          {/* 8. High-End Footer */}
+          {/* 12. High-End Agency Developer Footer */}
           <DeveloperFooter />
         </>
       )}
 
-      {/* Auth Modals (Sign In & Create Account matching screenshots with favicon.png centered logo) */}
+      {/* Auth Modals (Sign In & Create Account matching screenshot with centered favicon.png) */}
       <AuthModals
         isOpen={authModal.isOpen}
         mode={authModal.mode}

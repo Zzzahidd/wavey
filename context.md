@@ -78,19 +78,23 @@ Wavey/
 │   ├── src/
 │   │   ├── assets/             # Bundled visual assets & SVG icons
 │   │   ├── components/         # Modular React UI components
-│   │   │   ├── Navbar.tsx                   # Fixed glassmorphic navigation bar
-│   │   │   ├── HeroSection.tsx              # Composed Hero matching Design preview.png
+│   │   │   ├── Navbar.tsx                   # Sleek floating white navbar matching mockup
+│   │   │   ├── HeroSection.tsx              # Composed Hero with continuous flowing gradient
 │   │   │   ├── HeroInteractiveCanvas.tsx    # Continuous animated gradient & wave canvas
-│   │   │   ├── OpenAIChatBox.tsx            # Floating prompt bar with model dropdown
+│   │   │   ├── OpenAIChatBox.tsx            # Floating prompt bar with typewriter animation
 │   │   │   ├── HeroDashboardPreview.tsx     # 5 interactive preview telemetry cards
-│   │   │   ├── AgentArchitectureSection.tsx # 4-tier autonomous runtime pipeline
+│   │   │   ├── TrustEcosystemStrip.tsx      # Minimalist developer ecosystem logo cloud
+│   │   │   ├── CoreValueGrid.tsx            # 5-card horizontal engineering principles grid
+│   │   │   ├── ManifestoQuoteSection.tsx    # Editorial typographic manifesto statement
+│   │   │   ├── FeatureTrioShowcase.tsx      # 3-card core workflows showcase with UI previews
+│   │   │   ├── WorkspaceDeepDiveSection.tsx # Interactive product workspace preview & tabs
 │   │   │   ├── DeveloperIntelligenceBento.tsx # White double-bezel Evals & Code Sandbox bento
-│   │   │   ├── WorkflowNodeCanvas.tsx       # Visual agent node graph & live simulation
 │   │   │   ├── CapabilitiesMatrix.tsx       # Benchmarks & feature comparison matrix
 │   │   │   ├── EnterpriseSection.tsx        # Sovereign cloud & security credentials
 │   │   │   ├── PricingSection.tsx           # Solo, Team ($39), and Sovereign Enterprise
+│   │   │   ├── FinalCtaBanner.tsx           # High-impact conversion banner (#111111 CTA)
 │   │   │   ├── DeveloperFooter.tsx          # Agency-grade footer with live clock & glowing banner
-│   │   │   ├── AuthModals.tsx               # Sign In & Account Create modal dialogs
+│   │   │   ├── AuthModals.tsx               # Sign In & Account Create with centered favicon.png
 │   │   │   └── FullChatboxWorkspace.tsx     # Full-screen workspace matching chatbox.png
 │   │   ├── lib/
 │   │   │   ├── api.ts          # Centralized API fetch client and SSE stream reader
