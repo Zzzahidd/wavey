@@ -46,7 +46,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* =========================================================================
           TOP HERO BANNER WITH CONTINUOUS ANIMATED GRADIENT & TEXTURE
          ========================================================================= */}
-      <div className="relative min-h-[560px] sm:min-h-[620px] flex flex-col justify-between pt-4 pb-20 px-3 sm:px-6 lg:px-8">
+      <div className="relative min-h-[480px] sm:min-h-[520px] flex flex-col justify-between pt-2 pb-16 px-3 sm:px-6 lg:px-8">
         
         {/* Animated Gradient & Texture Canvas Backdrop */}
         <HeroInteractiveCanvas />
@@ -61,11 +61,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         />
 
         {/* 2. Content Container */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center mt-10 mb-4">
+        <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center mt-6 sm:mt-8 mb-4">
           
           {/* Main Display Headline (Helvetica Bold Italic) */}
           <h1 
-            className="text-4xl sm:text-5xl md:text-6xl text-white font-bold tracking-tight leading-[1.12] drop-shadow-sm select-none"
+            className="text-3xl sm:text-5xl md:text-6xl text-white font-bold tracking-tight leading-[1.12] drop-shadow-sm select-none"
             style={{ 
               fontFamily: '"Helvetica-BoldOblique", "Helvetica", -apple-system, BlinkMacSystemFont, sans-serif',
               fontStyle: 'italic',
@@ -76,19 +76,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-4 text-base sm:text-lg text-white/90 max-w-2xl font-normal leading-relaxed drop-shadow-2xs">
+          <p className="mt-3 text-sm sm:text-base text-white/90 max-w-2xl font-normal leading-relaxed drop-shadow-2xs">
             Bring your ideas to life with AI that can design, build, and refine your product alongside you.
           </p>
 
           {/* Floating OpenAI-Style Chatbox Container with Typewriter Animation */}
-          <div className="w-full mt-8">
+          <div className="w-full mt-6 sm:mt-7">
             <OpenAIChatBox onSubmit={onSendMessage} isLoading={isLoading} />
           </div>
 
         </div>
 
         {/* Spacer to balance bottom */}
-        <div className="h-4"></div>
+        <div className="h-2"></div>
 
       </div>
 
