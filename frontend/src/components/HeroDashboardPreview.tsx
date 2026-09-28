@@ -329,12 +329,12 @@ export const HeroDashboardPreview: React.FC = () => {
             </div>
 
             {/* Telemetry Node Points */}
-            <div className="absolute top-8 right-12 flex items-center gap-1 bg-white/95 px-2 py-0.5 rounded-full border border-zinc-200 shadow-2xs text-[10px] font-bold text-zinc-700 group-hover:scale-105 transition">
+            <div className="absolute top-8 right-12 flex items-center gap-1 bg-white/95 px-2 py-0.5 rounded-full border border-zinc-200 shadow-2xs text-[10px] font-bold text-zinc-700 transition">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
               14k tok/s
             </div>
 
-            <div className="absolute bottom-12 right-8 flex items-center gap-1 bg-white/95 px-2 py-0.5 rounded-full border border-zinc-200 shadow-2xs text-[10px] font-bold text-zinc-700 group-hover:scale-105 transition">
+            <div className="absolute bottom-12 right-8 flex items-center gap-1 bg-white/95 px-2 py-0.5 rounded-full border border-zinc-200 shadow-2xs text-[10px] font-bold text-zinc-700 transition">
               <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
               18k reqs
             </div>

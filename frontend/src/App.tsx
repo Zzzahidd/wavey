@@ -3,6 +3,8 @@ import { User } from './lib/types';
 import { getStoredUser, clearAuthToken } from './lib/api';
 import { HeroSection } from './components/HeroSection';
 import { TrustEcosystemStrip } from './components/TrustEcosystemStrip';
+import { FeatureCarouselSection } from './components/FeatureCarouselSection';
+import { SplitLiveInspectorSection } from './components/SplitLiveInspectorSection';
 import { CoreValueGrid } from './components/CoreValueGrid';
 import { ManifestoQuoteSection } from './components/ManifestoQuoteSection';
 import { FeatureTrioShowcase } from './components/FeatureTrioShowcase';
@@ -82,38 +84,44 @@ export default function App() {
             {/* 2. Developer Ecosystem Logo Strip */}
             <TrustEcosystemStrip />
 
-            {/* 3. Core Values 5-Card Horizontal Grid */}
+            {/* 3. Fernand-style Horizontal Feature Carousel */}
+            <FeatureCarouselSection />
+
+            {/* 4. Fernand-style Real-Time Telemetry & Payload Inspector */}
+            <SplitLiveInspectorSection />
+
+            {/* 5. Core Values 5-Card Horizontal Grid */}
             <CoreValueGrid />
 
-            {/* 4. Editorial Manifesto Quote Block */}
+            {/* 6. Editorial Manifesto Quote Block */}
             <ManifestoQuoteSection />
 
-            {/* 5. 3-Card Workflow Showcase */}
+            {/* 7. 3-Card Workflow Showcase */}
             <FeatureTrioShowcase />
 
-            {/* 6. Interactive Workspace Deep-Dive Simulation */}
+            {/* 8. Interactive Workspace Deep-Dive Simulation */}
             <WorkspaceDeepDiveSection />
 
-            {/* 7. Developer Intelligence Bento (Evals, Cost, Sandbox, CLI Terminal) */}
+            {/* 9. Developer Intelligence Bento (Evals, Cost, Sandbox, CLI Terminal) */}
             <DeveloperIntelligenceBento />
 
-            {/* 8. Benchmarks & Capability Comparison Matrix */}
+            {/* 10. Benchmarks & Capability Comparison Matrix */}
             <CapabilitiesMatrix />
 
-            {/* 9. Sovereign Enterprise Security */}
+            {/* 11. Sovereign Enterprise Security */}
             <EnterpriseSection />
 
-            {/* 10. Pricing Tiers */}
+            {/* 12. Pricing Tiers */}
             <PricingSection onSelectPlan={() => setAuthModal({ isOpen: true, mode: 'signup' })} />
 
-            {/* 11. Final Conversion CTA Banner */}
+            {/* 13. Final Conversion CTA Banner */}
             <FinalCtaBanner 
               onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
               onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
             />
           </main>
 
-          {/* 12. High-End Agency Developer Footer */}
+          {/* 14. High-End Agency Developer Footer */}
           <DeveloperFooter />
         </>
       )}

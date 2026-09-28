@@ -205,27 +205,27 @@ select,
   animation: blink-cursor 1s steps(2, start) infinite;
 }
 
-/* Fernand-inspired Interactive Cards */
+/* Fernand-inspired Interactive Cards (NO scale / NO transform jitter) */
 .fernand-card {
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease;
+  transition: box-shadow 0.2s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .fernand-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.16);
 }
 
-/* Magnetic Button Lift */
+/* Button hover feedback (opacity/color without upscale) */
 .btn-magnetic {
-  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .btn-magnetic:hover {
-  transform: translateY(-1px) scale(1.01);
+  opacity: 0.95;
 }
 
 .btn-magnetic:active {
-  transform: translateY(1px) scale(0.98);
+  opacity: 0.85;
 }
+
 
