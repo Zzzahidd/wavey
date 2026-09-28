@@ -9,7 +9,7 @@ export const EnterpriseSection: React.FC = () => {
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-semibold text-zinc-800 mb-4">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#5E1312]" />
+            <ShieldCheck className="w-3.5 h-3.5 text-zinc-900" />
             <span>SOVEREIGN ENTERPRISE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight leading-tight">
@@ -23,8 +23,8 @@ export const EnterpriseSection: React.FC = () => {
         {/* 3 Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           
-          <div className="bg-white rounded-3xl border border-zinc-200 p-8 shadow-sm hover:border-zinc-300 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-[#5E1312] mb-6">
+          <div className="bg-white rounded-3xl border border-zinc-200/90 p-8 shadow-sm hover:border-zinc-400 transition-all fernand-card cursor-pointer">
+            <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-900 mb-6">
               <Lock className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-zinc-900">Zero Data Retention</h3>
@@ -37,8 +37,8 @@ export const EnterpriseSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border border-zinc-200 p-8 shadow-sm hover:border-zinc-300 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-[#5E1312] mb-6">
+          <div className="bg-white rounded-3xl border border-zinc-200/90 p-8 shadow-sm hover:border-zinc-400 transition-all fernand-card cursor-pointer">
+            <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-900 mb-6">
               <Server className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-zinc-900">Sovereign VPC Deploy</h3>
@@ -51,8 +51,8 @@ export const EnterpriseSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border border-zinc-200 p-8 shadow-sm hover:border-zinc-300 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-[#5E1312] mb-6">
+          <div className="bg-white rounded-3xl border border-zinc-200/90 p-8 shadow-sm hover:border-zinc-400 transition-all fernand-card cursor-pointer">
+            <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-900 mb-6">
               <FileCheck className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-zinc-900">Deterministic Invariants</h3>

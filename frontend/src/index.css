@@ -27,9 +27,9 @@
 
 :root {
   --bg-primary: #FDFDFD;
-  --cta-primary: #5E1312;
-  --cta-hover: #4a0f0e;
-  --cta-active: #360b0a;
+  --cta-primary: #111111;
+  --cta-hover: #000000;
+  --cta-active: #222222;
   --font-helvetica: "Helvetica", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-helvetica-oblique: "Helvetica-BoldOblique", "Helvetica", -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -51,9 +51,21 @@ body {
   overflow-x: hidden;
 }
 
+/* Global Interactive Cursor Pointer Rule */
+button, 
+[role="button"], 
+a, 
+input[type="button"], 
+input[type="submit"], 
+input[type="range"], 
+select, 
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 /* Custom selection */
 ::selection {
-  background-color: #5E1312;
+  background-color: #111111;
   color: #FFFFFF;
 }
 
@@ -68,12 +80,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(94, 19, 18, 0.15);
+  background: rgba(17, 17, 17, 0.15);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(94, 19, 18, 0.35);
+  background: rgba(17, 17, 17, 0.35);
 }
 
 /* Continuous Kinetic Animations (NO fade in / fade out) */
@@ -182,3 +194,38 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 1rem;
 }
+
+/* Typewriter Blinking Cursor */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.animate-blink {
+  animation: blink-cursor 1s steps(2, start) infinite;
+}
+
+/* Fernand-inspired Interactive Cards */
+.fernand-card {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease;
+}
+
+.fernand-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+/* Magnetic Button Lift */
+.btn-magnetic {
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-magnetic:hover {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.btn-magnetic:active {
+  transform: translateY(1px) scale(0.98);
+}
+

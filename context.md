@@ -25,10 +25,13 @@ Every AI agent and contributor must strictly adhere to these rules without excep
 | :--- | :--- | :--- |
 | **Package Manager** | **`pnpm` exclusively** | Never run `npm`, `yarn`, or `bun`. Use `pnpm --filter <pkg> <cmd>` or workspace scripts. |
 | **Background Color** | `#FDFDFD` | Strict off-white canvas specified for the brand design. |
-| **Primary CTA Color** | `#5E1312` | Rich deep burgundy/maroon used for primary action buttons, focused states, and accents. |
-| **Surface Cards** | `#FFFFFF` with double bezels | All cards must be crisp white (`#FFFFFF`) with subtle outer border `#E7E5E4` and inner rim `#F5F5F4`. |
+| **Primary CTA Color** | `#111111` | Deep obsidian pitch-black for primary buttons (`bg-[#111111] text-white hover:bg-black`) ensuring maximum WCAG AAA contrast ratio (21:1). |
+| **Cursor Pointer** | **Global pointer on interactive elements** | All buttons, links, tabs, sliders, interactive cards, and modal triggers have explicit `cursor-pointer`. |
+| **Animated Input Placeholder** | **Typewriter text cycler** | Chatbox inputs cycle through realistic developer prompts with an animated blinking typewriter cursor (`|`). |
+| **Surface Cards** | `#FFFFFF` with double bezels | All cards must be crisp white (`#FFFFFF`) with subtle outer border `#E7E5E4` and inner rim `#F5F5F4` with Fernand-style magnetic hover lift. |
 | **NO Fade In / Fade Out Animations** | **STRICT BAN on fade-in/fade-out transitions** | **Never use `opacity-0 to opacity-100` or fading keyframes.** All animations must be kinetic (continuous mesh translations, 3D tilts, spring scale, wave oscillations, radar sweeps, and mechanical sliders). |
 | **ZERO Emojis** | **STRICT BAN on unicode emojis** | Emojis cheapen developer tools. Use vector SVG icons from `lucide-react` for all visual cues. |
+| **Authentication Flow** | **Single-action Google OAuth** | Modals strictly match `assests/account create.png` and `assests/sigin.png` with centered maroon spiral wave emblem and "Continue with Google" as the single action (no email forms or guest mode). |
 | **Spacing Grid** | Multiples of 4 | `gap-4` (16px), `p-8` (32px), `py-16` (64px), `px-4` (16px), etc. |
 | **Typography** | Custom Helvetica Stack | Custom `@font-face` definitions for Helvetica and Helvetica-BoldOblique loaded in `frontend/src/index.css`. |
 | **Vector Logos** | Sharp SVG Vectors | Logo and iconography must be crisp SVG vectors to eliminate any blurriness on Retina/High-DPI displays. |

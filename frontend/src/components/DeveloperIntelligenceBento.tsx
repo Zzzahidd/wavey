@@ -15,7 +15,9 @@ import {
   Check, 
   ArrowUpRight,
   GitCommit,
-  Flame
+  Flame,
+  Layers,
+  Code
 } from 'lucide-react';
 
 export const DeveloperIntelligenceBento: React.FC = () => {
@@ -32,10 +34,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
   const [isRunningCode, setIsRunningCode] = useState(false);
   const [sandboxOutput, setSandboxOutput] = useState('Sandbox initialized. Ready to execute.');
 
-  // Card D: Model Switcher
-  const [selectedBenchmarkModel, setSelectedBenchmarkModel] = useState<'gemini' | 'claude' | 'antigravity'>('gemini');
-
-  // Card E: Terminal Agent
+  // Card D: Terminal Agent
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
     '$ wavey agents:init --stack=react-node-mongo',
     '✓ Synthesized AST for 14 workspace files in 42ms',
@@ -81,7 +80,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
         {/* Section Title */}
         <div className="max-w-3xl mx-auto text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-semibold text-zinc-800 mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-[#5E1312]" />
+            <Sparkles className="w-3.5 h-3.5 text-zinc-900" />
             <span>DEVELOPER INTELLIGENCE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight leading-tight">
@@ -93,21 +92,21 @@ export const DeveloperIntelligenceBento: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            BENTO GRID (Inspired by cards inspiration in white double-bezel format)
+            BENTO GRID (Inspired by Fernand / Cursor double-bezel white cards)
            ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* =======================================================================
               CARD 1: EVAL · NIGHTLY REGRESSION RUNNER (7 Columns)
              ======================================================================= */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col justify-between hover:border-zinc-300 transition-all">
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col justify-between fernand-card">
             
             <div>
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-800 border border-zinc-200">
-                    <CheckCircle2 className="w-4 h-4 text-[#5E1312]" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-zinc-900">Eval · nightly-regression</h3>
@@ -120,8 +119,9 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                   {(['Summary', 'Cases', 'Diff'] as const).map(tab => (
                     <button
                       key={tab}
+                      type="button"
                       onClick={() => setEvalTab(tab)}
-                      className={`px-3 py-1 text-xs font-semibold rounded-lg transition ${
+                      className={`px-3 py-1 text-xs font-semibold rounded-lg transition cursor-pointer ${
                         evalTab === tab ? 'bg-white text-zinc-900 shadow-2xs' : 'text-zinc-500 hover:text-zinc-900'
                       }`}
                     >
@@ -150,7 +150,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                 <div className="sm:col-span-7">
                   <div className="flex justify-between text-[11px] text-zinc-500 font-medium mb-1">
                     <span>Pass rate · last 14 runs</span>
-                    <span className="text-zinc-400">threshold 90%</span>
+                    <span className="text-zinc-400 font-mono">threshold 90%</span>
                   </div>
                   <div className="h-14 w-full relative bg-zinc-50 rounded-xl p-2 border border-zinc-100">
                     <svg className="w-full h-full" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -174,7 +174,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                   { name: 'escalation_correct', type: 'Human label', pass: 88, change: '+4.1', changeColor: 'text-emerald-600' },
                   { name: 'latency_under_3s', type: 'Metric', pass: 83, change: '-1.6', changeColor: 'text-rose-600' },
                 ].map(evaluator => (
-                  <div key={evaluator.name} className="flex items-center justify-between p-2 rounded-xl bg-zinc-50 border border-zinc-100 hover:bg-zinc-100/70 transition">
+                  <div key={evaluator.name} className="flex items-center justify-between p-2 rounded-xl bg-zinc-50 border border-zinc-100 hover:bg-zinc-100/80 transition cursor-pointer">
                     <div className="flex items-center gap-2">
                       <span className="text-zinc-800 font-medium">{evaluator.name}</span>
                       <span className="text-[10px] font-sans px-2 py-0.5 rounded bg-zinc-200/80 text-zinc-700 font-semibold">
@@ -203,15 +203,17 @@ export const DeveloperIntelligenceBento: React.FC = () => {
               </div>
               <div className="flex items-center gap-3">
                 <button
+                  type="button"
                   onClick={() => alert('Viewing 19 failed test traces in isolated log inspector.')}
-                  className="px-3.5 py-1.5 text-xs font-semibold text-zinc-800 bg-zinc-100 hover:bg-zinc-200 rounded-xl border border-zinc-200 transition"
+                  className="px-3.5 py-1.5 text-xs font-semibold text-zinc-800 bg-zinc-100 hover:bg-zinc-200 rounded-xl border border-zinc-200 transition cursor-pointer"
                 >
                   Open Failed Cases
                 </button>
                 <button
+                  type="button"
                   onClick={handlePromote}
-                  className={`px-4 py-1.5 text-xs font-bold rounded-xl transition ${
-                    isPromoted ? 'bg-emerald-600 text-white' : 'bg-[#5E1312] text-white hover:opacity-90 shadow-sm'
+                  className={`px-4 py-1.5 text-xs font-bold rounded-xl transition cursor-pointer btn-magnetic ${
+                    isPromoted ? 'bg-emerald-600 text-white' : 'bg-[#111111] text-white hover:bg-black shadow-sm'
                   }`}
                 >
                   {isPromoted ? '✓ Promoted v15' : 'Promote v15'}
@@ -227,7 +229,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
           <div className="lg:col-span-5 flex flex-col gap-6">
             
             {/* Top Sub-Card: LLM Cost */}
-            <div className="bg-white rounded-3xl border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 hover:border-zinc-300 transition-all">
+            <div className="bg-white rounded-3xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 fernand-card">
               <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
                 <span className="text-xs font-bold text-zinc-900">LLM cost · By model</span>
                 <span className="text-[11px] text-zinc-400 font-mono">last 7 days</span>
@@ -244,7 +246,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
               <div className="space-y-2 mt-3 text-xs font-mono">
                 <div className="flex justify-between items-center text-zinc-600">
                   <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded bg-[#5E1312]"></span>
+                    <span className="w-2 h-2 rounded bg-[#111111]"></span>
                     triage-l · v14
                   </span>
                   <span className="font-bold text-zinc-800">$1,410</span>
@@ -267,10 +269,10 @@ export const DeveloperIntelligenceBento: React.FC = () => {
             </div>
 
             {/* Bottom Sub-Card: Tool Error Rate with Interactive Slider */}
-            <div className="bg-white rounded-3xl border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 hover:border-zinc-300 transition-all">
+            <div className="bg-white rounded-3xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 fernand-card">
               <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
                 <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-zinc-700" />
+                  <AlertCircle className="w-4 h-4 text-zinc-800" />
                   <span className="text-xs font-bold text-zinc-900">Tool error rate</span>
                 </div>
                 <span className="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">
@@ -294,7 +296,8 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                   step="0.1"
                   value={alertThreshold}
                   onChange={(e) => setAlertThreshold(parseFloat(e.target.value))}
-                  className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-[#5E1312]"
+                  className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-black"
+                  aria-label="Tool error rate alert threshold slider"
                 />
               </div>
 
@@ -323,12 +326,12 @@ export const DeveloperIntelligenceBento: React.FC = () => {
           {/* =======================================================================
               CARD 3: LIVE CODE SANDBOX & COMPONENT SYNTHESIZER (7 Columns)
              ======================================================================= */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 hover:border-zinc-300 transition-all">
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 fernand-card">
             
             {/* Header & File Tabs */}
             <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-zinc-100">
               <div className="flex items-center gap-2">
-                <FileCode className="w-4 h-4 text-[#5E1312]" />
+                <FileCode className="w-4 h-4 text-zinc-900" />
                 <span className="text-xs font-bold text-zinc-900">Code Synthesis Sandbox</span>
               </div>
 
@@ -336,8 +339,9 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                 {(['App.tsx', 'agent.config.ts', 'schema.prisma'] as const).map(file => (
                   <button
                     key={file}
+                    type="button"
                     onClick={() => setActiveCodeFile(file)}
-                    className={`px-2.5 py-1 text-xs font-mono rounded-lg transition ${
+                    className={`px-2.5 py-1 text-xs font-mono rounded-lg transition cursor-pointer ${
                       activeCodeFile === file ? 'bg-white text-zinc-900 font-bold shadow-2xs' : 'text-zinc-500 hover:text-zinc-800'
                     }`}
                   >
@@ -350,7 +354,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
             {/* Code Content */}
             <div className="mt-3 p-4 bg-zinc-950 text-zinc-200 rounded-2xl font-mono text-xs leading-relaxed overflow-x-auto shadow-inner">
               {activeCodeFile === 'App.tsx' && (
-                <pre>{`import React, { useState } from 'react';\nimport { createSoftwareAgent } from '@wavey/core';\n\nexport default function App() {\n  const [status, setStatus] = useState('idle');\n\n  const handleBuild = async () => {\n    setStatus('synthesizing');\n    const agent = await createSoftwareAgent({ model: 'gemini-2.5-pro' });\n    await agent.generateFullStackApp({\n      goal: 'Build collaborative AI coding environment',\n      deployTarget: 'vercel'\n    });\n    setStatus('ready');\n  };\n\n  return (\n    <div className="p-6 bg-[#FDFDFD] rounded-2xl border border-zinc-200">\n      <h1 className="text-lg font-bold">Wavey Autonomous App</h1>\n      <button onClick={handleBuild} className="mt-4 px-4 py-2 bg-[#5E1312] text-white rounded-lg">\n        {status === 'synthesizing' ? 'Building...' : 'Launch Agent'}\n      </button>\n    </div>\n  );\n}`}</pre>
+                <pre>{`import React, { useState } from 'react';\nimport { createSoftwareAgent } from '@wavey/core';\n\nexport default function App() {\n  const [status, setStatus] = useState('idle');\n\n  const handleBuild = async () => {\n    setStatus('synthesizing');\n    const agent = await createSoftwareAgent({ model: 'gemini-2.5-pro' });\n    await agent.generateFullStackApp({\n      goal: 'Build collaborative AI coding environment',\n      deployTarget: 'vercel'\n    });\n    setStatus('ready');\n  };\n\n  return (\n    <div className="p-6 bg-[#FDFDFD] rounded-2xl border border-zinc-200">\n      <h1 className="text-lg font-bold">Wavey Autonomous App</h1>\n      <button onClick={handleBuild} className="mt-4 px-4 py-2 bg-[#111111] text-white rounded-lg cursor-pointer">\n        {status === 'synthesizing' ? 'Building...' : 'Launch Agent'}\n      </button>\n    </div>\n  );\n}`}</pre>
               )}
               {activeCodeFile === 'agent.config.ts' && (
                 <pre>{`export default defineAgentConfig({\n  name: 'Wavey Autonomous Architect',\n  invariants: {\n    typeSafety: 'strict',\n    testThreshold: 0.95,\n    securityScan: 'zero-cve'\n  },\n  tools: ['git', 'monaco', 'terminal', 'mcp-database']\n});`}</pre>
@@ -367,9 +371,10 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                 <span>{sandboxOutput}</span>
               </div>
               <button
+                type="button"
                 onClick={handleRunCode}
                 disabled={isRunningCode}
-                className="px-3 py-1.5 bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition active:scale-95"
+                className="px-3.5 py-1.5 bg-[#111111] text-white hover:bg-black text-xs font-semibold rounded-lg flex items-center gap-1.5 transition active:scale-95 cursor-pointer btn-magnetic"
               >
                 <Play className="w-3 h-3 fill-current" />
                 <span>{isRunningCode ? 'Compiling...' : 'Run Simulation'}</span>
@@ -381,7 +386,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
           {/* =======================================================================
               CARD 4: AUTONOMOUS AGENT TERMINAL (5 Columns)
              ======================================================================= */}
-          <div className="lg:col-span-5 bg-white rounded-3xl border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 flex flex-col justify-between hover:border-zinc-300 transition-all font-mono">
+          <div className="lg:col-span-5 bg-white rounded-3xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 flex flex-col justify-between fernand-card font-mono">
             
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
@@ -390,7 +395,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                   <span className="text-xs font-bold text-zinc-900 font-sans">Wavey CLI & Agent Terminal</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] text-zinc-400">pnpm · node 24</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">pnpm · node 24</span>
                 </div>
               </div>
 
@@ -418,7 +423,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
               </div>
               <button
                 type="submit"
-                className="px-3 py-1.5 bg-[#5E1312] text-white rounded-xl text-xs font-semibold hover:opacity-90 transition active:scale-95"
+                className="px-3.5 py-1.5 bg-[#111111] text-white rounded-xl text-xs font-semibold hover:bg-black transition active:scale-95 cursor-pointer btn-magnetic"
               >
                 Send
               </button>

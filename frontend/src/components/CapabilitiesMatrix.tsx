@@ -52,7 +52,7 @@ export const CapabilitiesMatrix: React.FC = () => {
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-semibold text-zinc-800 mb-4">
-            <Zap className="w-3.5 h-3.5 text-[#5E1312]" />
+            <Zap className="w-3.5 h-3.5 text-zinc-900" />
             <span>BENCHMARKS & CAPABILITIES</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight leading-tight">
@@ -64,13 +64,13 @@ export const CapabilitiesMatrix: React.FC = () => {
         </div>
 
         {/* Comparison Table Card */}
-        <div className="bg-white rounded-3xl border border-zinc-200 shadow-xl overflow-hidden max-w-5xl mx-auto">
+        <div className="bg-white rounded-3xl border border-zinc-200/90 shadow-xl overflow-hidden max-w-5xl mx-auto fernand-card">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-zinc-100 bg-zinc-50/70 text-xs text-zinc-500 font-mono">
                   <th className="py-4 px-6 font-semibold">CAPABILITY</th>
-                  <th className="py-4 px-4 font-bold text-[#5E1312] text-center bg-[#5E1312]/5">WAVEY</th>
+                  <th className="py-4 px-4 font-bold text-zinc-900 text-center bg-zinc-100/70">WAVEY</th>
                   <th className="py-4 px-4 font-semibold text-center text-zinc-700">CURSOR</th>
                   <th className="py-4 px-4 font-semibold text-center text-zinc-700">COPILOT</th>
                   <th className="py-4 px-4 font-semibold text-center text-zinc-700">REPLIT</th>
@@ -78,14 +78,14 @@ export const CapabilitiesMatrix: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-zinc-100 text-xs">
                 {COMPARISON_ROWS.map((row) => (
-                  <tr key={row.feature} className="hover:bg-zinc-50/60 transition">
+                  <tr key={row.feature} className="hover:bg-zinc-50/60 transition cursor-pointer">
                     <td className="py-4 px-6">
                       <div className="font-bold text-zinc-900 text-sm">{row.feature}</div>
                       <div className="text-zinc-500 text-[11px] mt-0.5">{row.desc}</div>
                     </td>
-                    <td className="py-4 px-4 text-center bg-[#5E1312]/5 font-bold">
+                    <td className="py-4 px-4 text-center bg-zinc-100/40 font-bold">
                       <div className="flex justify-center">
-                        <span className="w-6 h-6 rounded-full bg-[#5E1312] text-white flex items-center justify-center shadow-xs">
+                        <span className="w-6 h-6 rounded-full bg-[#111111] text-white flex items-center justify-center shadow-xs">
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
                         </span>
                       </div>

@@ -45,7 +45,7 @@ const ARCHITECTURE_LAYERS = [
     title: 'Multi-Model Routing Kernel',
     desc: 'Dynamically routes reasoning, code completion, and refactoring to the optimal model.',
     metrics: '32ms avg time-to-first-token',
-    codeSample: `// Dynamic Model Routing\nconst model = router.select({\n  taskType: "ast-refactor",\n  preferredEngine: "gemini-1.5-pro",\n  fallback: "claude-3-7-sonnet"\n});`
+    codeSample: `// Dynamic Model Routing\nconst model = router.select({\n  taskType: "ast-refactor",\n  preferredEngine: "gemini-2.5-pro",\n  fallback: "claude-3-7-sonnet"\n});`
   }
 ];
 
@@ -59,7 +59,7 @@ export const AgentArchitectureSection: React.FC = () => {
         {/* Section Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-semibold text-zinc-800 mb-4">
-            <Cpu className="w-3.5 h-3.5 text-[#5E1312]" />
+            <Cpu className="w-3.5 h-3.5 text-zinc-900" />
             <span>ARCHITECTURE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight leading-tight">
@@ -83,15 +83,15 @@ export const AgentArchitectureSection: React.FC = () => {
                   onClick={() => setSelectedLayer(layer)}
                   className={`p-5 rounded-2xl border transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-white border-[#5E1312]/40 shadow-[0_8px_30px_rgba(94,19,18,0.06)] ring-1 ring-[#5E1312]/20'
+                      ? 'bg-white border-black shadow-[0_8px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/10'
                       : 'bg-white/70 border-zinc-200 hover:border-zinc-300 hover:bg-white'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="text-[10px] font-bold tracking-widest text-[#5E1312] uppercase">
+                    <div className="text-[10px] font-bold tracking-widest text-zinc-700 uppercase font-mono">
                       {layer.category}
                     </div>
-                    <span className="text-xs font-semibold text-zinc-400">0{idx + 1}</span>
+                    <span className="text-xs font-semibold text-zinc-400 font-mono">0{idx + 1}</span>
                   </div>
                   
                   <h3 className="text-base font-bold text-zinc-900 mt-1">
@@ -103,8 +103,8 @@ export const AgentArchitectureSection: React.FC = () => {
                   </p>
 
                   <div className="mt-3 flex items-center justify-between text-xs pt-2 border-t border-zinc-100">
-                    <span className="font-semibold text-emerald-600">{layer.metrics}</span>
-                    <span className="text-[#5E1312] font-semibold flex items-center gap-1">
+                    <span className="font-semibold text-emerald-600 font-mono">{layer.metrics}</span>
+                    <span className="text-zinc-900 font-bold flex items-center gap-1 hover:underline">
                       Inspect Stack <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
@@ -114,7 +114,7 @@ export const AgentArchitectureSection: React.FC = () => {
           </div>
 
           {/* Right: Live Interactive Code & Pipeline Telemetry Window */}
-          <div className="lg:col-span-6 bg-white rounded-3xl border border-zinc-200 shadow-xl p-6 relative overflow-hidden">
+          <div className="lg:col-span-6 bg-white rounded-3xl border border-zinc-200/90 shadow-xl p-6 relative overflow-hidden fernand-card">
             <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5">
@@ -124,7 +124,7 @@ export const AgentArchitectureSection: React.FC = () => {
                 </div>
                 <span className="text-xs font-mono text-zinc-500 ml-2">wavey-kernel://{selectedLayer.id}-spec</span>
               </div>
-              <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">
                 Active Layer
               </span>
             </div>
@@ -138,16 +138,16 @@ export const AgentArchitectureSection: React.FC = () => {
             {/* Real-time telemetry badges */}
             <div className="mt-6 grid grid-cols-3 gap-3 text-center">
               <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100">
-                <div className="text-[10px] text-zinc-400 uppercase font-semibold">Latency</div>
+                <div className="text-[10px] text-zinc-400 uppercase font-semibold font-mono">Latency</div>
                 <div className="text-base font-bold text-zinc-900 mt-0.5">24ms</div>
               </div>
               <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100">
-                <div className="text-[10px] text-zinc-400 uppercase font-semibold">AST Integrity</div>
+                <div className="text-[10px] text-zinc-400 uppercase font-semibold font-mono">AST Integrity</div>
                 <div className="text-base font-bold text-emerald-600 mt-0.5">100%</div>
               </div>
               <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100">
-                <div className="text-[10px] text-zinc-400 uppercase font-semibold">Verification</div>
-                <div className="text-base font-bold text-[#5E1312] mt-0.5">Passed</div>
+                <div className="text-[10px] text-zinc-400 uppercase font-semibold font-mono">Verification</div>
+                <div className="text-base font-bold text-zinc-900 mt-0.5">Passed</div>
               </div>
             </div>
 

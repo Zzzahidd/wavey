@@ -15,7 +15,9 @@ import {
   Terminal,
   Code2,
   Trash2,
-  Copy
+  Copy,
+  Menu,
+  X
 } from 'lucide-react';
 import { User, Session, Message } from '../lib/types';
 import { fetchSessions, createSession, deleteSession, streamChat } from '../lib/api';
@@ -26,6 +28,13 @@ interface FullChatboxWorkspaceProps {
   onLogout: () => void;
   initialPrompt?: string;
 }
+
+const WORKSPACE_PLACEHOLDERS = [
+  'What would you like to work on?',
+  'Build an Antigravity IDE workflow in TypeScript...',
+  'Generate a full-stack Next.js + MongoDB application...',
+  'Analyze customer churn with predictive telemetry...'
+];
 
 export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
   user,
@@ -53,7 +62,18 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
   const [inputPrompt, setInputPrompt] = useState(initialPrompt);
   const [isStreaming, setIsStreaming] = useState(false);
   const [selectedModel, setSelectedModel] = useState('gemini-1.5-flash');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Typewriter placeholder state
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex(prev => (prev + 1) % WORKSPACE_PLACEHOLDERS.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Load sessions from API
   useEffect(() => {
@@ -83,6 +103,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
       setSessions(prev => [newSession, ...prev]);
       setActiveSessionId(newSession.sessionId);
       setMessages([]);
+      setIsMobileSidebarOpen(false);
     } catch {
       const fallbackId = `session_${Date.now()}`;
       const newSession: Session = {
@@ -94,12 +115,8 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
       setSessions(prev => [newSession, ...prev]);
       setActiveSessionId(fallbackId);
       setMessages([]);
+      setIsMobileSidebarOpen(false);
     }
-  };
-
-  const handleSelectSession = (session: Session) => {
-    setActiveSessionId(session.sessionId);
-    setMessages(session.messages && session.messages.length > 0 ? session.messages : []);
   };
 
   const handleSendMessage = async (textToSend?: string) => {
@@ -172,9 +189,12 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
     <div className="fixed inset-0 z-50 flex bg-[#FDFDFD] text-zinc-900 overflow-hidden font-sans">
       
       {/* =========================================================================
-          LEFT SIDEBAR (Matches chatbox.png)
+          LEFT SIDEBAR (Matches chatbox.png with responsive mobile sheet)
          ========================================================================= */}
-      <aside className="w-64 sm:w-72 bg-white border-r border-zinc-200 flex flex-col justify-between shrink-0 select-none">
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-64 sm:w-72 bg-white border-r border-zinc-200 flex flex-col justify-between shrink-0 select-none transition-transform duration-300 md:relative md:translate-x-0
+        ${isMobileSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'}
+      `}>
         
         <div>
           {/* Top Window Control Dots & Actions */}
@@ -187,17 +207,22 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
 
             <div className="flex items-center gap-2 text-zinc-400">
               <button 
+                type="button"
                 onClick={onBackToHome}
-                className="hover:text-zinc-700 transition" 
+                className="hover:text-zinc-900 transition cursor-pointer" 
                 title="Back to Landing Page"
               >
                 <Home className="w-4 h-4" />
               </button>
-              <button className="hover:text-zinc-700 transition" title="Search sessions">
+              <button type="button" className="hover:text-zinc-900 transition cursor-pointer" title="Search sessions">
                 <Search className="w-4 h-4" />
               </button>
-              <button className="hover:text-zinc-700 transition" title="Filter sessions">
-                <SlidersHorizontal className="w-4 h-4" />
+              <button 
+                type="button"
+                onClick={() => setIsMobileSidebarOpen(false)}
+                className="md:hidden hover:text-zinc-900 transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -205,8 +230,9 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
           {/* + New Session Button */}
           <div className="p-3">
             <button
+              type="button"
               onClick={handleCreateNewSession}
-              className="w-full py-2 px-3 bg-white hover:bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-semibold text-zinc-800 flex items-center gap-2 shadow-2xs transition active:scale-[0.98]"
+              className="w-full py-2.5 px-3 bg-white hover:bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-semibold text-zinc-800 flex items-center gap-2 shadow-2xs transition active:scale-[0.98] cursor-pointer"
             >
               <Plus className="w-4 h-4 text-zinc-500" />
               <span>+ New Session</span>
@@ -214,7 +240,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
           </div>
 
           {/* Sessions List */}
-          <div className="px-2 py-1 space-y-1">
+          <div className="px-2 py-1 space-y-1 overflow-y-auto max-h-[calc(100vh-220px)]">
             {[
               { id: 'session-acme-prep', title: 'Prep for Acme call tomorrow', time: '2h' },
               { id: 'session-notion-deal', title: 'Follow up with Notion deal', time: '5h' },
@@ -224,8 +250,10 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
               return (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => {
                     setActiveSessionId(item.id);
+                    setIsMobileSidebarOpen(false);
                     if (item.id === 'session-acme-prep') {
                       setMessages([
                         {
@@ -245,14 +273,14 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
                       setMessages([]);
                     }
                   }}
-                  className={`w-full text-left px-3 py-2.5 rounded-xl text-xs flex items-center justify-between transition ${
+                  className={`w-full text-left px-3 py-2.5 rounded-xl text-xs flex items-center justify-between transition cursor-pointer ${
                     isSelected
                       ? 'bg-zinc-100 font-semibold text-zinc-950'
                       : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
                   }`}
                 >
                   <span className="truncate pr-2">{item.title}</span>
-                  <span className="text-[11px] text-zinc-400 shrink-0">{item.time}</span>
+                  <span className="text-[11px] text-zinc-400 shrink-0 font-mono">{item.time}</span>
                 </button>
               );
             })}
@@ -271,12 +299,13 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
               />
               <div className="flex flex-col">
                 <span className="text-xs font-bold text-zinc-900 truncate max-w-[120px]">{user?.name || 'Developer'}</span>
-                <span className="text-[10px] text-zinc-400">Wavey Pro</span>
+                <span className="text-[10px] text-zinc-400 font-mono">Wavey Pro</span>
               </div>
             </div>
             <button
+              type="button"
               onClick={onLogout}
-              className="p-1.5 text-zinc-400 hover:text-zinc-800 transition"
+              className="p-1.5 text-zinc-400 hover:text-zinc-800 transition cursor-pointer"
               title="Sign out"
             >
               <LogOut className="w-4 h-4" />
@@ -286,23 +315,41 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
 
       </aside>
 
+      {/* Backdrop for Mobile Sidebar */}
+      {isMobileSidebarOpen && (
+        <div 
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="md:hidden fixed inset-0 bg-black/30 backdrop-blur-xs z-40"
+        />
+      )}
+
       {/* =========================================================================
           MAIN CHAT WORKSPACE AREA
          ========================================================================= */}
       <main className="flex-1 flex flex-col justify-between h-full bg-[#FDFDFD] relative overflow-hidden">
         
         {/* Top Session Title Bar */}
-        <header className="h-14 border-b border-zinc-200/80 px-6 flex items-center justify-between bg-white/80 backdrop-blur-xs">
-          <button className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 hover:text-zinc-600 transition">
-            <span>{currentSession.title}</span>
-            <ChevronDown className="w-4 h-4 text-zinc-400" />
-          </button>
+        <header className="h-14 border-b border-zinc-200/80 px-4 sm:px-6 flex items-center justify-between bg-white/80 backdrop-blur-xs">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="md:hidden p-1.5 text-zinc-600 hover:text-black rounded-lg border border-zinc-200 cursor-pointer"
+            >
+              <Menu className="w-4 h-4" />
+            </button>
+            <div className="flex items-center gap-1.5 text-sm font-bold text-zinc-900">
+              <span className="truncate max-w-[200px] sm:max-w-md">{currentSession.title}</span>
+              <ChevronDown className="w-4 h-4 text-zinc-400 shrink-0" />
+            </div>
+          </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs text-zinc-400 font-mono">Kernel: Gemini 2.5 Pro</span>
+            <span className="hidden sm:inline text-xs text-zinc-400 font-mono">Kernel: Gemini 2.5 Pro</span>
             <button
+              type="button"
               onClick={onBackToHome}
-              className="px-3 py-1 text-xs font-semibold text-zinc-600 hover:text-zinc-900 bg-zinc-100 rounded-lg border border-zinc-200 transition"
+              className="px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:text-black bg-zinc-100 hover:bg-zinc-200 rounded-lg border border-zinc-200 transition cursor-pointer"
             >
               Exit to Home
             </button>
@@ -314,9 +361,9 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
           
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center text-zinc-400 space-y-3 my-auto">
-              <Sparkles className="w-8 h-8 text-[#5E1312]" />
-              <h3 className="text-base font-bold text-zinc-700">What would you like to build today?</h3>
-              <p className="text-xs text-zinc-400 max-w-sm">
+              <Sparkles className="w-8 h-8 text-zinc-900" />
+              <h3 className="text-base font-bold text-zinc-800">What would you like to build today?</h3>
+              <p className="text-xs text-zinc-500 max-w-sm">
                 Ask Wavey to scaffold a full application, generate a component, or synthesize automated tests.
               </p>
             </div>
@@ -355,7 +402,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
                       </div>
                     )}
 
-                    {/* Markdown rendering simulation */}
+                    {/* Markdown rendering */}
                     <div className="prose prose-zinc text-sm max-w-none">
                       <div className="whitespace-pre-wrap font-sans text-zinc-800">
                         {msg.content}
@@ -376,7 +423,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
             BOTTOM CHAT INPUT BOX (Matches chatbox.png bottom bar)
            ========================================================================= */}
         <div className="p-4 sm:p-6 max-w-4xl w-full mx-auto">
-          <div className="bg-white rounded-2xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3 flex flex-col gap-2">
+          <div className="bg-white rounded-2xl border border-zinc-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3 flex flex-col gap-2 fernand-card">
             
             <input
               type="text"
@@ -388,7 +435,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
                   handleSendMessage();
                 }
               }}
-              placeholder="What would you like to work on?"
+              placeholder={WORKSPACE_PLACEHOLDERS[placeholderIndex]}
               className="w-full bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 outline-none px-2 py-1"
             />
 
@@ -397,7 +444,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className="p-1.5 text-zinc-400 hover:text-zinc-700 transition"
+                  className="p-1.5 text-zinc-400 hover:text-zinc-700 transition cursor-pointer"
                   title="Attach file"
                 >
                   <Paperclip className="w-4 h-4" />
@@ -405,7 +452,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
 
                 <button
                   type="button"
-                  className="px-2.5 py-1 bg-zinc-100 hover:bg-zinc-200 rounded-lg text-xs font-semibold text-zinc-700 flex items-center gap-1.5 transition"
+                  className="px-2.5 py-1 bg-zinc-100 hover:bg-zinc-200 rounded-lg text-xs font-semibold text-zinc-700 flex items-center gap-1.5 transition cursor-pointer"
                 >
                   <FolderKanban className="w-3.5 h-3.5 text-zinc-500" />
                   <span>My Project</span>
@@ -415,7 +462,7 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className="p-1.5 text-zinc-400 hover:text-zinc-700 transition"
+                  className="p-1.5 text-zinc-400 hover:text-zinc-700 transition cursor-pointer"
                   title="Voice input"
                 >
                   <Mic className="w-4 h-4" />
@@ -425,10 +472,10 @@ export const FullChatboxWorkspace: React.FC<FullChatboxWorkspaceProps> = ({
                   type="button"
                   onClick={() => handleSendMessage()}
                   disabled={!inputPrompt.trim() || isStreaming}
-                  className={`w-7 h-7 rounded-full flex items-center justify-center transition ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center transition cursor-pointer btn-magnetic ${
                     inputPrompt.trim() && !isStreaming
-                      ? 'bg-[#5E1312] text-white hover:opacity-90 active:scale-95 shadow-sm'
-                      : 'bg-zinc-900 text-white hover:bg-zinc-800'
+                      ? 'bg-[#111111] text-white hover:bg-black active:scale-95 shadow-sm'
+                      : 'bg-zinc-900 text-white hover:bg-black'
                   }`}
                 >
                   <ArrowUp className="w-3.5 h-3.5 stroke-[2.5]" />

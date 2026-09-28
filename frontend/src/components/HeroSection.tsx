@@ -41,7 +41,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage, isLoadi
           
           {/* Main Display Headline (Helvetica Bold Italic) */}
           <h1 
-            className="text-4xl sm:text-5xl md:text-6xl text-white font-bold tracking-tight leading-[1.12] drop-shadow-sm"
+            className="text-4xl sm:text-5xl md:text-6xl text-white font-bold tracking-tight leading-[1.12] drop-shadow-sm select-none"
             style={{ 
               fontFamily: '"Helvetica-BoldOblique", "Helvetica", -apple-system, BlinkMacSystemFont, sans-serif',
               fontStyle: 'italic',
@@ -56,7 +56,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage, isLoadi
             Bring your ideas to life with AI that can design, build, and refine your product alongside you.
           </p>
 
-          {/* Floating OpenAI-Style Chatbox Container */}
+          {/* Floating OpenAI-Style Chatbox Container with Typewriter Animation */}
           <div className="w-full mt-8">
             <OpenAIChatBox onSubmit={onSendMessage} isLoading={isLoading} />
           </div>
@@ -66,7 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage, isLoadi
       </div>
 
       {/* =========================================================================
-          SUGGESTION ACTION PILLS (On Clean #FDFDFD Surface)
+          SUGGESTION ACTION PILLS (On Clean #FDFDFD Surface with Magnetic Hover)
          ========================================================================= */}
       <div className="relative z-20 -mt-8 max-w-5xl mx-auto px-4">
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
@@ -75,10 +75,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage, isLoadi
             return (
               <button
                 key={pill.id}
+                type="button"
                 onClick={() => onSendMessage(pill.prompt, 'gemini-1.5-flash')}
-                className="group flex items-center gap-2 px-4 py-2 bg-white hover:bg-zinc-50 border border-zinc-200/90 rounded-full shadow-2xs text-xs sm:text-sm font-medium text-zinc-700 hover:text-zinc-950 transition-all active:scale-95"
+                className="group flex items-center gap-2 px-4 py-2 bg-white hover:bg-zinc-50 border border-zinc-200/90 hover:border-black/20 rounded-full shadow-2xs hover:shadow-md text-xs sm:text-sm font-medium text-zinc-700 hover:text-zinc-950 transition-all active:scale-95 cursor-pointer btn-magnetic"
               >
-                <Icon className="w-4 h-4 text-zinc-500 group-hover:text-[#5E1312] transition-colors" />
+                <Icon className="w-4 h-4 text-zinc-500 group-hover:text-black transition-colors" />
                 <span>{pill.label}</span>
               </button>
             );

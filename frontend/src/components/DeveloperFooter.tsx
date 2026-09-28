@@ -34,7 +34,7 @@ export const DeveloperFooter: React.FC = () => {
 
               <a
                 href="#pricing"
-                className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-white text-zinc-950 font-bold text-xs rounded-xl hover:bg-zinc-200 transition active:scale-95 shadow-md"
+                className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-white text-zinc-950 font-bold text-xs rounded-xl hover:bg-zinc-200 transition active:scale-95 shadow-md cursor-pointer btn-magnetic"
               >
                 <span>Book Free Strategy Call</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -67,7 +67,7 @@ export const DeveloperFooter: React.FC = () => {
                 <line x1="50" y1="10" x2="50" y2="90" />
                 <line x1="10" y1="30" x2="90" y2="70" />
                 <line x1="10" y1="70" x2="90" y2="30" />
-                <circle cx="50" cy="50" r="14" fill="#5E1312" fillOpacity="0.4" stroke="#5E1312" strokeWidth="1.5" />
+                <circle cx="50" cy="50" r="14" fill="#111111" fillOpacity="0.8" stroke="#333333" strokeWidth="1.5" />
               </svg>
             </div>
 
@@ -84,16 +84,16 @@ export const DeveloperFooter: React.FC = () => {
                 SOCIALS
               </div>
               <div className="flex items-center gap-3 text-zinc-400">
-                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition">
+                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition cursor-pointer" aria-label="GitHub">
                   <Github className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition">
+                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition cursor-pointer" aria-label="Twitter">
                   <Twitter className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition">
+                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition cursor-pointer" aria-label="LinkedIn">
                   <Linkedin className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition">
+                <a href="#" className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:text-white hover:border-zinc-700 transition cursor-pointer" aria-label="Discord">
                   <MessageSquare className="w-4 h-4" />
                 </a>
               </div>
@@ -104,10 +104,10 @@ export const DeveloperFooter: React.FC = () => {
                 NAVIGATION
               </div>
               <ul className="space-y-1.5 text-xs text-zinc-400">
-                <li><a href="#architecture" className="hover:text-white transition">Architecture Overview</a></li>
-                <li><a href="#intelligence" className="hover:text-white transition">Evals & Nightly Regressions</a></li>
-                <li><a href="#workflow" className="hover:text-white transition">Visual Workflow Canvas</a></li>
-                <li><a href="#pricing" className="hover:text-white transition">Pricing & Sovereign VPC</a></li>
+                <li><a href="#architecture" className="hover:text-white transition cursor-pointer">Architecture Overview</a></li>
+                <li><a href="#intelligence" className="hover:text-white transition cursor-pointer">Evals & Nightly Regressions</a></li>
+                <li><a href="#workflow" className="hover:text-white transition cursor-pointer">Visual Workflow Canvas</a></li>
+                <li><a href="#pricing" className="hover:text-white transition cursor-pointer">Pricing & Sovereign VPC</a></li>
                 <li className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px] pt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   Systems Operational (99.99%)
@@ -118,12 +118,12 @@ export const DeveloperFooter: React.FC = () => {
 
         </div>
 
-        {/* Luminous Branded Glowing Strip (Inspired by yudhistira footer strip) */}
+        {/* Luminous Branded Glowing Strip */}
         <div className="mt-8 rounded-2xl overflow-hidden relative border border-zinc-800 shadow-2xl">
           <div 
             className="w-full py-8 px-6 sm:px-10 flex flex-wrap items-center justify-between gap-4 relative overflow-hidden"
             style={{
-              background: 'linear-gradient(135deg, #5E1312 0%, #350b0a 35%, #0f172a 75%, #064e3b 100%)'
+              background: 'linear-gradient(135deg, #18181b 0%, #09090b 35%, #0f172a 75%, #064e3b 100%)'
             }}
           >
             {/* Ambient shimmer */}
@@ -144,11 +144,11 @@ export const DeveloperFooter: React.FC = () => {
         {/* Bottom Micro Bar */}
         <div className="mt-6 flex flex-wrap items-center justify-between text-[11px] text-zinc-500 font-mono">
           <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-zinc-300 transition">PRIVACY POLICY</a>
+            <a href="#" className="hover:text-zinc-300 transition cursor-pointer">PRIVACY POLICY</a>
             <span>·</span>
-            <a href="#" className="hover:text-zinc-300 transition">TERMS OF SERVICE</a>
+            <a href="#" className="hover:text-zinc-300 transition cursor-pointer">TERMS OF SERVICE</a>
             <span>·</span>
-            <a href="#" className="hover:text-zinc-300 transition">SECURITY DISCLOSURE</a>
+            <a href="#" className="hover:text-zinc-300 transition cursor-pointer">SECURITY DISCLOSURE</a>
           </div>
           <div>
             BUILT WITH PRECISION FOR AMBITIOUS DEVELOPERS
