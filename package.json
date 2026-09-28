@@ -1,0 +1,13 @@
+{
+  "name": "wavey-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter wavey-backend --filter wavey-frontend dev",
+    "dev:backend": "pnpm --filter wavey-backend dev",
+    "dev:frontend": "pnpm --filter wavey-frontend dev",
+    "build": "pnpm --filter wavey-backend build && pnpm --filter wavey-frontend build",
+    "build:backend": "pnpm --filter wavey-backend build",
+    "build:frontend": "pnpm --filter wavey-frontend build"
+  }
+}
