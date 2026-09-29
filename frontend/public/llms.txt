@@ -1,0 +1,14 @@
+# Wavey
+
+> Wavey is an AI engine and collaborative platform for modern software development and agent workflows. It allows developers and teams to design, build, and optimize AI agents, applications, and workflows.
+
+## Features
+- **Agent Orchestration**: Build, deploy, and monitor autonomous AI agents.
+- **Enterprise Controls**: Role-based access control, audit logs, scoped secrets, and SOC 2 compliance.
+- **Cost Optimization**: Optimize model latency and token costs with self-improving prompt loops.
+- **Developer Workspace**: Real-time collaborative chat and coding canvas powered by advanced LLMs.
+
+## Documentation & Links
+- [Homepage](https://wavey.ai/)
+- [Pricing](https://wavey.ai/pricing.md)
+- [API Health](https://wavey.ai/api/health)

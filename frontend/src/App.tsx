@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { User } from './lib/types';
 import { getStoredUser, clearAuthToken } from './lib/api';
 import { HeroSection } from './components/HeroSection';
-import { TrustEcosystemStrip } from './components/TrustEcosystemStrip';
-import { FeatureCarouselSection } from './components/FeatureCarouselSection';
-import { SplitLiveInspectorSection } from './components/SplitLiveInspectorSection';
-import { CoreValueGrid } from './components/CoreValueGrid';
-import { ManifestoQuoteSection } from './components/ManifestoQuoteSection';
-import { FeatureTrioShowcase } from './components/FeatureTrioShowcase';
-import { WorkspaceDeepDiveSection } from './components/WorkspaceDeepDiveSection';
-import { DeveloperIntelligenceBento } from './components/DeveloperIntelligenceBento';
-import { CapabilitiesMatrix } from './components/CapabilitiesMatrix';
-import { EnterpriseSection } from './components/EnterpriseSection';
-import { PricingSection } from './components/PricingSection';
-import { FinalCtaBanner } from './components/FinalCtaBanner';
-import { DeveloperFooter } from './components/DeveloperFooter';
+import { GumloopTrustWall } from './components/GumloopTrustWall';
+import { GumloopAgentShowcase } from './components/GumloopAgentShowcase';
+import { GumloopCompanyContext } from './components/GumloopCompanyContext';
+import { GumloopMeetYourTeam } from './components/GumloopMeetYourTeam';
+import { GumloopBuiltByOne } from './components/GumloopBuiltByOne';
+import { GumloopOptimizeSection } from './components/GumloopOptimizeSection';
+import { GumloopEnterpriseControls } from './components/GumloopEnterpriseControls';
+import { GumloopTestimonials } from './components/GumloopTestimonials';
+import { GumloopRecentlyShipped } from './components/GumloopRecentlyShipped';
+import { GumloopFinalCta } from './components/GumloopFinalCta';
+import { GumloopFooter } from './components/GumloopFooter';
 import { AuthModals } from './components/AuthModals';
 import { FullChatboxWorkspace } from './components/FullChatboxWorkspace';
 
@@ -28,13 +26,35 @@ export default function App() {
   const [pendingPrompt, setPendingPrompt] = useState<string>('');
 
   useEffect(() => {
+    // 1. Check URL query params for Google OAuth callback tokens
+    const params = new URLSearchParams(window.location.search);
+    const urlToken = params.get('auth_token');
+    const urlUser = params.get('auth_user');
+
+    if (urlToken && urlUser) {
+      try {
+        const parsedUser = JSON.parse(decodeURIComponent(urlUser));
+        localStorage.setItem('wavey_auth_token', urlToken);
+        localStorage.setItem('wavey_user', JSON.stringify(parsedUser));
+        setUser(parsedUser);
+        setViewMode('app');
+        // Clean URL params without reload
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+      } catch (e) {
+        console.error('Failed to parse auth user from URL:', e);
+      }
+    }
+
+    // 2. Check stored authenticated user: if user exists, go straight to chat app
     const stored = getStoredUser();
     if (stored) {
       setUser(stored);
+      setViewMode('app');
     }
   }, []);
 
-  const handleHeroSendMessage = (prompt: string, model: string) => {
+  const handleHeroSendMessage = (prompt: string, _model: string) => {
     setPendingPrompt(prompt);
     // Open the full chatbox workspace with the prompt preloaded and executed
     setViewMode('app');
@@ -43,7 +63,6 @@ export default function App() {
   const handleAuthSuccess = (authenticatedUser: User) => {
     setUser(authenticatedUser);
     setAuthModal({ isOpen: false, mode: 'signin' });
-    // Automatically transition to the workspace when user creates account or signs in
     setViewMode('app');
   };
 
@@ -54,7 +73,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-zinc-900 font-sans selection:bg-[#111111] selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-white text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white flex flex-col justify-between">
       
       {/* View Switcher: Dedicated Chatbox Workspace vs Marketing Landing Page */}
       {viewMode === 'app' ? (
@@ -65,13 +84,16 @@ export default function App() {
             setViewMode('landing');
           }}
           onLogout={handleLogout}
+          onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
+          onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
           initialPrompt={pendingPrompt}
         />
       ) : (
         <>
-          {/* Main Fernand-Inspired Minimalist Landing Page Flow */}
+          {/* Gumloop.com Completely Redesigned Landing Page Flow */}
           <main className="flex-1">
-            {/* 1. Hero Section (with floating compact Navbar, animated gradient, chatbox, 5 preview cards) */}
+            
+            {/* 1. Hero Section: "Build, share, optimize & control agents" */}
             <HeroSection 
               onSendMessage={handleHeroSendMessage}
               user={user}
@@ -81,52 +103,46 @@ export default function App() {
               onLogout={handleLogout}
             />
 
-            {/* 2. Developer Ecosystem Logo Strip */}
-            <TrustEcosystemStrip />
+            {/* 2. Enterprise Trust Wall & Metric Ticker */}
+            <GumloopTrustWall />
 
-            {/* 3. Fernand-style Horizontal Feature Carousel */}
-            <FeatureCarouselSection />
+            {/* 3. "Let your experts build the agents" (Interactive Agent Runner) */}
+            <GumloopAgentShowcase onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })} />
 
-            {/* 4. Fernand-style Real-Time Telemetry & Payload Inspector */}
-            <SplitLiveInspectorSection />
+            {/* 4. "Complete context on your company" (Company Knowledge Brain, Skills, Live Activity) */}
+            <GumloopCompanyContext />
 
-            {/* 5. Core Values 5-Card Horizontal Grid */}
-            <CoreValueGrid />
+            {/* 5. "Collaborate: Meet your team where they work" (Slack, Teams, Gmail) */}
+            <GumloopMeetYourTeam />
 
-            {/* 6. Editorial Manifesto Quote Block */}
-            <ManifestoQuoteSection />
+            {/* 6. "Built by one, used by all" (Granular Roles & Access Control) */}
+            <GumloopBuiltByOne />
 
-            {/* 7. 3-Card Workflow Showcase */}
-            <FeatureTrioShowcase />
+            {/* 7. "Optimize Your Agents" (Cost Reduction Calculator, Self-Improvement, Evals) */}
+            <GumloopOptimizeSection />
 
-            {/* 8. Interactive Workspace Deep-Dive Simulation */}
-            <WorkspaceDeepDiveSection />
+            {/* 8. "Enterprise-grade controls" (9-Card Bento Grid) */}
+            <GumloopEnterpriseControls />
 
-            {/* 9. Developer Intelligence Bento (Evals, Cost, Sandbox, CLI Terminal) */}
-            <DeveloperIntelligenceBento />
+            {/* 9. "In agents, they trust" (Customer Case Studies) */}
+            <GumloopTestimonials />
 
-            {/* 10. Benchmarks & Capability Comparison Matrix */}
-            <CapabilitiesMatrix />
+            {/* 10. "Recently shipped" (Horizontal Changelog Timeline) */}
+            <GumloopRecentlyShipped />
 
-            {/* 11. Sovereign Enterprise Security */}
-            <EnterpriseSection />
-
-            {/* 12. Pricing Tiers */}
-            <PricingSection onSelectPlan={() => setAuthModal({ isOpen: true, mode: 'signup' })} />
-
-            {/* 13. Final Conversion CTA Banner */}
-            <FinalCtaBanner 
+            {/* 11. "Build your team of agents" (Final High-Conversion CTA) */}
+            <GumloopFinalCta 
               onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
               onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
             />
           </main>
 
-          {/* 14. High-End Agency Developer Footer */}
-          <DeveloperFooter />
+          {/* 12. Modern Multi-Column Footer */}
+          <GumloopFooter />
         </>
       )}
 
-      {/* Auth Modals (Sign In & Create Account matching screenshot with centered favicon.png) */}
+      {/* Auth Modals */}
       <AuthModals
         isOpen={authModal.isOpen}
         mode={authModal.mode}

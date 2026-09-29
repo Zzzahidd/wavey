@@ -21,7 +21,7 @@ Guidelines for your responses:
 export async function* streamGeminiChat(
   prompt: string,
   history: Array<{ role: 'user' | 'assistant' | 'system'; content: string }> = [],
-  modelName: string = 'gemini-1.5-flash'
+  modelName: string = 'gemini-2.5-flash'
 ): AsyncGenerator<string, void, unknown> {
   if (!config.geminiApiKey || !genAI) {
     // Simulated intelligent response if no API key is set
@@ -42,39 +42,47 @@ export async function* streamGeminiChat(
     return;
   }
 
-  try {
-    // Map model names to valid Gemini models
-    const resolvedModelName =
-      modelName.includes('pro') ? 'gemini-1.5-pro' :
-      modelName.includes('2.5') || modelName.includes('2.0') ? 'gemini-1.5-flash' :
-      'gemini-1.5-flash';
+  // Model fallback chain
+  const candidateModels = ['gemini-2.5-flash'];
 
-    const model = genAI.getGenerativeModel({
-      model: resolvedModelName,
-      systemInstruction: WAVEY_SYSTEM_INSTRUCTION,
-    });
+  let success = false;
+  let lastError: Error | null = null;
 
-    const contents = history.map(msg => ({
-      role: msg.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: msg.content }]
-    }));
+  for (const modelToTry of candidateModels) {
+    try {
+      const model = genAI.getGenerativeModel({
+        model: modelToTry,
+        systemInstruction: WAVEY_SYSTEM_INSTRUCTION,
+      });
 
-    contents.push({
-      role: 'user',
-      parts: [{ text: prompt }]
-    });
+      const contents = history.map(msg => ({
+        role: msg.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: msg.content }]
+      }));
 
-    const result = await model.generateContentStream({ contents });
+      contents.push({
+        role: 'user',
+        parts: [{ text: prompt }]
+      });
 
-    for await (const chunk of result.stream) {
-      const text = chunk.text();
-      if (text) {
-        yield text;
+      const result = await model.generateContentStream({ contents });
+
+      for await (const chunk of result.stream) {
+        const text = chunk.text();
+        if (text) {
+          yield text;
+        }
       }
+      success = true;
+      break;
+    } catch (error) {
+      console.error(`[Gemini Service Error with ${modelToTry}]:`, error);
+      lastError = error as Error;
     }
-  } catch (error) {
-    console.error('[Gemini Service Error]:', error);
-    yield `\n[Wavey Engine Notice]: ${(error as Error).message}`;
+  }
+
+  if (!success && lastError) {
+    yield `\n[Wavey Engine Notice]: ${lastError.message}`;
   }
 }
 
@@ -112,7 +120,7 @@ export async function generateProjectFiles(prompt: string, template: string = 'r
 
   try {
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       systemInstruction: `${WAVEY_SYSTEM_INSTRUCTION}\nYou must output a strictly valid JSON object matching this schema:
 {
   "name": "Project Name",

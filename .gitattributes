@@ -1,0 +1,18 @@
+# GitHub Linguist Overrides
+# Ensure GitHub correctly detects TypeScript/JavaScript/CSS/HTML as primary languages
+# and ignores agent scripts/skills/docs in the language breakdown stats.
+
+.agents/** linguist-vendored=true
+.agents/** linguist-documentation=true
+*.py linguist-detectable=false
+*.py linguist-vendored=true
+*.md linguist-documentation=true
+pnpm-lock.yaml linguist-vendored=true
+
+# Explicitly ensure TypeScript, React TSX, CSS, HTML are marked as detectable
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
+*.js linguist-detectable=true
+*.jsx linguist-detectable=true
+*.css linguist-detectable=true
+*.html linguist-detectable=true

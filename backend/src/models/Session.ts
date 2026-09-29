@@ -43,9 +43,9 @@ const SessionSchema = new Schema(
   {
     sessionId: { type: String, required: true, unique: true, index: true },
     userId: { type: String, index: true },
-    title: { type: String, default: 'New Session' },
+    title: { type: String, default: 'New chat' },
     messages: [MessageSchema],
-    aiModel: { type: String, default: 'gemini-1.5-flash' }
+    aiModel: { type: String, default: 'gemini-2.5-flash' }
   },
   { timestamps: true }
 );

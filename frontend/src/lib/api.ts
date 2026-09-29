@@ -30,6 +30,23 @@ export function setStoredUser(user: User): void {
 }
 
 // 1. Auth API
+export async function initiateGoogleLogin(): Promise<void> {
+  try {
+    const res = await fetch(`${API_BASE}/auth/google/url`);
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+      return;
+    }
+  } catch (err) {
+    console.error('Failed to get Google Auth URL from API:', err);
+  }
+  // Direct Google OAuth URL fallback with select_account
+  const clientId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID || '1040533108814-an91hmbhfqeu8c2jk6el04bl5k4eq41p.apps.googleusercontent.com';
+  const callbackUrl = encodeURIComponent('http://localhost:3000/api/auth/google/callback');
+  window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${callbackUrl}&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&prompt=select_account%20consent&access_type=offline`;
+}
+
 export async function loginWithGoogle(mockPayload?: { email: string; name: string; avatarUrl?: string }): Promise<{ token: string; user: User }> {
   const payload = mockPayload || {
     email: 'developer@wavey.dev',
@@ -91,7 +108,7 @@ export async function streamChat(
   prompt: string,
   sessionId: string,
   history: Array<{ role: 'user' | 'assistant' | 'system'; content: string }> = [],
-  model: string = 'gemini-1.5-flash',
+  model: string = 'gemini-2.5-flash',
   onToken: (token: string) => void,
   onComplete: (fullResponse: string) => void,
   onError: (error: Error) => void
@@ -167,7 +184,7 @@ export async function fetchSessions(): Promise<Session[]> {
   }
 }
 
-export async function createSession(title: string, model: string = 'gemini-1.5-flash'): Promise<Session> {
+export async function createSession(title: string, model: string = 'gemini-2.5-flash'): Promise<Session> {
   const res = await fetch(`${API_BASE}/sessions`, {
     method: 'POST',
     headers: {

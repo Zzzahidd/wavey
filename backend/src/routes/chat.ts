@@ -1,11 +1,12 @@
 import { Router, Request, Response } from 'express';
 import { streamGeminiChat } from '../services/gemini.js';
 import { SessionModel, memorySessions } from '../models/Session.js';
+import { clearApiCache } from '../middleware/cache.js';
 
 export const chatRouter = Router();
 
 chatRouter.post('/', async (req: Request, res: Response) => {
-  const { prompt, sessionId = 'default-session', history = [], model = 'gemini-1.5-flash' } = req.body;
+  const { prompt, sessionId = 'default-session', history = [], model = 'gemini-2.5-flash' } = req.body;
 
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt is required' });
@@ -66,6 +67,9 @@ chatRouter.post('/', async (req: Request, res: Response) => {
       existing.messages.push(userMsg, assistantMsg);
       memorySessions.set(sessionId, existing);
     }
+
+    // Invalidate sessions cache
+    clearApiCache('/api/sessions');
 
     res.write(`data: ${JSON.stringify({ text: '', done: true, fullResponse })}\n\n`);
     res.end();

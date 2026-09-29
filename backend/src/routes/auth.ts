@@ -13,12 +13,13 @@ function generateToken(user: { id: string; email: string; name: string }): strin
 // 1. Google OAuth initialization URL
 authRouter.get('/google/url', (req: Request, res: Response) => {
   const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+  const redirectUri = (req.query.redirect_uri as string) || config.googleCallbackUrl;
   const options = {
-    redirect_uri: config.googleCallbackUrl,
+    redirect_uri: redirectUri,
     client_id: config.googleClientId,
     access_type: 'offline',
     response_type: 'code',
-    prompt: 'consent',
+    prompt: 'select_account consent',
     scope: [
       'https://www.googleapis.com/auth/userinfo.profile',
       'https://www.googleapis.com/auth/userinfo.email',
@@ -29,7 +30,123 @@ authRouter.get('/google/url', (req: Request, res: Response) => {
   res.json({ url: `${rootUrl}?${qs.toString()}` });
 });
 
+// Helper to exchange Google auth code with candidate redirect URIs
+async function exchangeGoogleCode(code: string, candidateUris: string[]) {
+  const uniqueUris = Array.from(new Set(candidateUris.filter(Boolean)));
+  let lastError: any = null;
+
+  for (const uri of uniqueUris) {
+    try {
+      const res = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          code,
+          client_id: config.googleClientId,
+          client_secret: config.googleClientSecret,
+          redirect_uri: uri,
+          grant_type: 'authorization_code',
+        })
+      });
+      const data = (await res.json()) as any;
+      if (res.ok && data?.access_token) {
+        return data;
+      }
+      lastError = data;
+    } catch (e) {
+      lastError = e;
+    }
+  }
+  throw lastError;
+}
+
 // 2. Google OAuth Callback / verification
+authRouter.get('/google/callback', async (req: Request, res: Response) => {
+  const code = req.query.code as string;
+  if (!code) {
+    return res.redirect(`${config.frontendUrl}/?error=no_code`);
+  }
+
+  try {
+    const host = req.get('host') || `localhost:${config.port}`;
+    const protocol = req.protocol || 'http';
+    const currentCallbackUrl = `${protocol}://${host}/api/auth/google/callback`;
+
+    const candidateUris = [
+      currentCallbackUrl,
+      config.googleCallbackUrl,
+      'http://localhost:5000/api/auth/google/callback',
+      'http://localhost:3000/api/auth/google/callback',
+      'http://localhost:5173/api/auth/google/callback'
+    ];
+
+    const tokenData = await exchangeGoogleCode(code, candidateUris);
+    if (!tokenData?.access_token) {
+      console.error('[Google Token Exchange Error]:', tokenData);
+      return res.redirect(`${config.frontendUrl}/?error=token_failed`);
+    }
+
+    const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` }
+    });
+    const googleProfile = (await userRes.json()) as any;
+
+    const email = googleProfile.email;
+    const name = googleProfile.name || googleProfile.given_name || email.split('@')[0];
+    const avatarUrl = googleProfile.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+    const googleId = googleProfile.id;
+
+    let user: any = null;
+    try {
+      user = await UserModel.findOne({ email });
+      if (!user) {
+        user = await UserModel.create({
+          email,
+          name,
+          avatarUrl,
+          googleId,
+          provider: 'google'
+        });
+      } else {
+        user.name = name;
+        user.avatarUrl = avatarUrl;
+        user.googleId = googleId;
+        await user.save();
+      }
+    } catch (err) {
+      user = {
+        _id: `user_${Date.now()}`,
+        email,
+        name,
+        avatarUrl,
+        googleId,
+        provider: 'google'
+      };
+      memoryUsers.set(email, user);
+    }
+
+    const token = generateToken({
+      id: user._id.toString(),
+      email: user.email,
+      name: user.name
+    });
+
+    const userParam = encodeURIComponent(JSON.stringify({
+      id: user._id.toString(),
+      email: user.email,
+      name: user.name,
+      avatarUrl: user.avatarUrl,
+      provider: 'google'
+    }));
+
+    return res.redirect(`${config.frontendUrl}/?auth_token=${token}&auth_user=${userParam}`);
+  } catch (error) {
+    console.error('[Google Callback Exception]:', error);
+    return res.redirect(`${config.frontendUrl}/?error=auth_exception`);
+  }
+});
+
+// 3. Direct Google Post Auth (if token received directly)
 authRouter.post('/google', async (req: Request, res: Response) => {
   try {
     const { email, name, avatarUrl, googleId } = req.body;

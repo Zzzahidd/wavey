@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { User } from '../lib/types';
-import { loginWithGoogle } from '../lib/api';
+import { initiateGoogleLogin } from '../lib/api';
 import faviconImg from '../assets/favicon.png';
 
 interface AuthModalProps {
@@ -16,7 +16,6 @@ export const AuthModals: React.FC<AuthModalProps> = ({
   isOpen,
   mode,
   onClose,
-  onSuccess,
   onSwitchMode
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,12 +27,9 @@ export const AuthModals: React.FC<AuthModalProps> = ({
     setIsLoading(true);
     setError(null);
     try {
-      const { user } = await loginWithGoogle();
-      onSuccess(user);
-      onClose();
+      await initiateGoogleLogin();
     } catch (err) {
       setError((err as Error).message);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -45,8 +41,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      
-      {/* Modal Card Container (Exact match to account create.png & sigin.png) */}
+      {/* Modal Card Container (Exact Match to account create.png & sigin.png) */}
       <div className="relative w-full max-w-[380px] sm:max-w-[400px] bg-white rounded-3xl border border-zinc-200/90 shadow-[0_24px_70px_-15px_rgba(0,0,0,0.2)] p-6 sm:p-8 transform transition-transform">
         
         {/* Top-right close button in crisp rounded square box */}
@@ -58,7 +53,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           <X className="w-4 h-4" />
         </button>
 
-        {/* Top Centered Favicon Logo (Matches assests/favicon.png) */}
+        {/* Top Centered Favicon Logo */}
         <div className="flex justify-center mb-6 pt-2">
           <img 
             src={faviconImg} 
@@ -85,7 +80,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           </div>
         )}
 
-        {/* Single Action: Continue with Google Button (Matches account create.png & sigin.png) */}
+        {/* ONLY ONE ACTION: Continue with Google Button (Exact match to account create.png & sigin.png) */}
         <div className="mb-6">
           <button
             type="button"

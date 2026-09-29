@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { generateProjectFiles } from '../services/gemini.js';
 import { ProjectModel, memoryProjects } from '../models/Project.js';
+import { apiCache, clearApiCache } from '../middleware/cache.js';
 
 export const projectsRouter = Router();
 
@@ -30,6 +31,9 @@ projectsRouter.post('/generate', async (req: Request, res: Response) => {
       memoryProjects.set(projectId, projectData);
     }
 
+    // Invalidate project list cache
+    clearApiCache('/api/projects');
+
     res.json({ project: projectData });
   } catch (err) {
     console.error('[Project Gen Route Error]:', err);
@@ -37,8 +41,8 @@ projectsRouter.post('/generate', async (req: Request, res: Response) => {
   }
 });
 
-// List projects
-projectsRouter.get('/', async (req: Request, res: Response) => {
+// List projects (cached for 60 seconds)
+projectsRouter.get('/', apiCache(60), async (req: Request, res: Response) => {
   try {
     let projects: any[] = [];
     try {
