@@ -56,8 +56,13 @@ export default function App() {
 
   const handleHeroSendMessage = (prompt: string, _model: string) => {
     setPendingPrompt(prompt);
-    // Open the full chatbox workspace with the prompt preloaded and executed
-    setViewMode('app');
+    if (!user) {
+      // Require user to sign in or create an account first
+      setAuthModal({ isOpen: true, mode: 'signup' });
+    } else {
+      // User is authenticated, enter chat workspace directly
+      setViewMode('app');
+    }
   };
 
   const handleAuthSuccess = (authenticatedUser: User) => {

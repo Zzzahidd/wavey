@@ -87,12 +87,14 @@ export const OpenAIChatBox: React.FC<OpenAIChatBoxProps> = ({ onSubmit, isLoadin
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      if (prompt.trim()) {
+        handleSend();
+      }
     }
   };
 
   const handleSend = () => {
-    const textToSend = prompt.trim() || (!prompt.trim() && displayedPlaceholder ? displayedPlaceholder : '');
+    const textToSend = prompt.trim();
     if (!textToSend || isLoading) return;
     onSubmit(textToSend, selectedModel.id);
   };
@@ -237,16 +239,16 @@ export const OpenAIChatBox: React.FC<OpenAIChatBoxProps> = ({ onSubmit, isLoadin
 
           </div>
 
-          {/* Right Side: Circular Up-Arrow Send Button in WCAG Compliant #111111 */}
+          {/* Right Side: Circular Up-Arrow Send Button */}
           <button
             type="button"
             onClick={handleSend}
-            disabled={(!prompt.trim() && !displayedPlaceholder) || isLoading}
+            disabled={!prompt.trim() || isLoading}
             aria-label="Send prompt"
-            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all btn-magnetic shrink-0 ${
-              (prompt.trim() || displayedPlaceholder) && !isLoading
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shrink-0 ${
+              prompt.trim() && !isLoading
                 ? 'bg-[#111111] text-white hover:bg-black shadow-sm active:scale-90 cursor-pointer'
-                : 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
+                : 'bg-zinc-100 text-zinc-300 border border-zinc-200/60 cursor-not-allowed'
             }`}
           >
             <ArrowUp className="w-4 h-4 stroke-[2.5]" />
