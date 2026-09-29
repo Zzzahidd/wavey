@@ -78,6 +78,17 @@ app.get('/api/health', (req: Request, res: Response) => {
   });
 });
 
+// Root route
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    status: 'online',
+    app: 'Wavey AI Engine Backend',
+    version: '1.0.0',
+    documentation: 'https://wavey.ai',
+    healthCheck: '/api/health'
+  });
+});
+
 // Register API Routes
 app.use('/api/auth', authRouter);
 app.use('/api/chat', chatRouter);
