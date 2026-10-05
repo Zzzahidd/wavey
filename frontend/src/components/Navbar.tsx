@@ -25,8 +25,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="relative z-30 w-full pt-3 sm:pt-5 px-3 sm:px-6 max-w-[1360px] mx-auto">
-      {/* Sleek, Spacious Floating White Navbar Card with High Touch Ergonomics */}
-      <div className="w-full bg-white border border-zinc-200/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)] px-4 sm:px-8 h-14 sm:h-16 rounded-2xl flex items-center justify-between transition-all">
+      {/* Sleek, Sharp Floating White Navbar Card with Zero Corner Radius */}
+      <div className="w-full bg-white border border-zinc-200/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)] px-4 sm:px-8 h-14 sm:h-16 rounded-none flex items-center justify-between transition-all">
         
         {/* Left: Wavey Logo (Spiral Icon + Wordmark) */}
         <a 
@@ -49,48 +49,48 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => scrollToSection('features')}
-            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-xl transition-colors cursor-pointer select-none"
+            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-none transition-colors cursor-pointer select-none"
           >
             Features
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('solutions')}
-            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-xl transition-colors cursor-pointer select-none"
+            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-none transition-colors cursor-pointer select-none"
           >
             Solutions
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('enterprise')}
-            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-xl transition-colors cursor-pointer select-none"
+            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-none transition-colors cursor-pointer select-none"
           >
             Enterprise
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('pricing')}
-            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-xl transition-colors cursor-pointer select-none"
+            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-none transition-colors cursor-pointer select-none"
           >
             Pricing
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('changelog')}
-            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-xl transition-colors cursor-pointer select-none"
+            className="px-3.5 py-2 text-xs sm:text-[13px] font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 rounded-none transition-colors cursor-pointer select-none"
           >
             Changelog
           </button>
         </nav>
 
-        {/* Right: Action Buttons (Thumb-Friendly Touch Targets for Mobile) */}
+        {/* Right: Action Buttons with Sharp Corners */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {user ? (
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={onOpenApp}
-                className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px] bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-xl transition cursor-pointer text-xs sm:text-[13px] font-medium text-zinc-900 shadow-2xs"
+                className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px] bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-none transition cursor-pointer text-xs sm:text-[13px] font-medium text-zinc-900 shadow-2xs"
               >
                 <img 
                   src={user.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} 
@@ -102,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 type="button"
                 onClick={onLogout}
-                className="min-h-[40px] sm:min-h-[44px] px-2.5 sm:px-3 text-xs sm:text-[13px] text-zinc-500 hover:text-zinc-950 transition cursor-pointer flex items-center justify-center font-medium"
+                className="min-h-[40px] sm:min-h-[44px] px-2.5 sm:px-3 text-xs sm:text-[13px] text-zinc-500 hover:text-zinc-950 transition cursor-pointer flex items-center justify-center font-medium rounded-none"
               >
                 Sign out
               </button>
@@ -112,14 +112,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 type="button"
                 onClick={onOpenSignIn}
-                className="px-4 sm:px-6 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px] text-xs sm:text-[13px] font-medium text-zinc-900 bg-white hover:bg-zinc-50 border border-zinc-300 rounded-xl transition cursor-pointer select-none flex items-center justify-center shadow-2xs"
+                className="px-4 sm:px-6 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px] text-xs sm:text-[13px] font-medium text-zinc-900 bg-white hover:bg-zinc-50 border border-zinc-300 rounded-none transition cursor-pointer select-none flex items-center justify-center shadow-2xs"
               >
                 Sign in
               </button>
               <button
                 type="button"
                 onClick={onOpenSignUp}
-                className="px-4 sm:px-6 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px] text-xs sm:text-[13px] font-medium text-white bg-[#111111] hover:bg-black rounded-xl transition cursor-pointer shadow-xs select-none btn-magnetic flex items-center justify-center"
+                className="px-4 sm:px-6 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px] text-xs sm:text-[13px] font-medium text-white bg-[#111111] hover:bg-black rounded-none transition cursor-pointer shadow-xs select-none btn-magnetic flex items-center justify-center"
               >
                 Try for free
               </button>
