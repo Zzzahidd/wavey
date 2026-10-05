@@ -14,7 +14,8 @@ function generateToken(user: { id: string; email: string; name: string }): strin
 authRouter.get('/google/url', (req: Request, res: Response) => {
   const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
   const redirectUri = (req.query.redirect_uri as string) || config.googleCallbackUrl;
-  const options = {
+  const state = (req.query.state as string) || (req.headers.referer ? new URL(req.headers.referer).origin : '');
+  const options: Record<string, string> = {
     redirect_uri: redirectUri,
     client_id: config.googleClientId,
     access_type: 'offline',
@@ -25,6 +26,10 @@ authRouter.get('/google/url', (req: Request, res: Response) => {
       'https://www.googleapis.com/auth/userinfo.email',
     ].join(' '),
   };
+
+  if (state) {
+    options.state = state;
+  }
 
   const qs = new URLSearchParams(options);
   res.json({ url: `${rootUrl}?${qs.toString()}` });
@@ -63,8 +68,19 @@ async function exchangeGoogleCode(code: string, candidateUris: string[]) {
 // 2. Google OAuth Callback / verification
 authRouter.get('/google/callback', async (req: Request, res: Response) => {
   const code = req.query.code as string;
+  const state = req.query.state as string;
+
+  let targetFrontendUrl = config.frontendUrl;
+  if (state && (state.startsWith('http://') || state.startsWith('https://'))) {
+    targetFrontendUrl = state.replace(/\/$/, '');
+  } else if (req.headers.referer) {
+    try {
+      targetFrontendUrl = new URL(req.headers.referer).origin;
+    } catch {}
+  }
+
   if (!code) {
-    return res.redirect(`${config.frontendUrl}/?error=no_code`);
+    return res.redirect(`${targetFrontendUrl}/?error=no_code`);
   }
 
   try {
@@ -83,7 +99,7 @@ authRouter.get('/google/callback', async (req: Request, res: Response) => {
     const tokenData = await exchangeGoogleCode(code, candidateUris);
     if (!tokenData?.access_token) {
       console.error('[Google Token Exchange Error]:', tokenData);
-      return res.redirect(`${config.frontendUrl}/?error=token_failed`);
+      return res.redirect(`${targetFrontendUrl}/?error=token_failed`);
     }
 
     const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
@@ -139,10 +155,10 @@ authRouter.get('/google/callback', async (req: Request, res: Response) => {
       provider: 'google'
     }));
 
-    return res.redirect(`${config.frontendUrl}/?auth_token=${token}&auth_user=${userParam}`);
+    return res.redirect(`${targetFrontendUrl}/?auth_token=${token}&auth_user=${userParam}`);
   } catch (error) {
     console.error('[Google Callback Exception]:', error);
-    return res.redirect(`${config.frontendUrl}/?error=auth_exception`);
+    return res.redirect(`${targetFrontendUrl}/?error=auth_exception`);
   }
 });
 

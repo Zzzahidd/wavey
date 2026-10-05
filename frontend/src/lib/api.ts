@@ -18,8 +18,9 @@ export function clearAuthToken(): void {
 }
 
 export function getStoredUser(): User | null {
+  const token = getAuthToken();
   const userStr = localStorage.getItem('wavey_user');
-  if (!userStr) return null;
+  if (!token || !userStr) return null;
   try {
     return JSON.parse(userStr);
   } catch {
@@ -33,8 +34,9 @@ export function setStoredUser(user: User): void {
 
 // 1. Auth API
 export async function initiateGoogleLogin(): Promise<void> {
+  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
   try {
-    const res = await fetch(`${API_BASE}/auth/google/url`);
+    const res = await fetch(`${API_BASE}/auth/google/url?state=${encodeURIComponent(currentOrigin)}`);
     const data = await res.json();
     if (data.url) {
       window.location.href = data.url;
@@ -46,7 +48,7 @@ export async function initiateGoogleLogin(): Promise<void> {
   // Direct Google OAuth URL fallback with select_account
   const clientId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID || '1040533108814-an91hmbhfqeu8c2jk6el04bl5k4eq41p.apps.googleusercontent.com';
   const callbackUrl = encodeURIComponent('http://localhost:3000/api/auth/google/callback');
-  window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${callbackUrl}&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&prompt=select_account%20consent&access_type=offline`;
+  window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${callbackUrl}&state=${encodeURIComponent(currentOrigin)}&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&prompt=select_account%20consent&access_type=offline`;
 }
 
 export async function loginWithGoogle(mockPayload?: { email: string; name: string; avatarUrl?: string }): Promise<{ token: string; user: User }> {

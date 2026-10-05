@@ -204,7 +204,7 @@ export const GumloopAgentShowcase: React.FC<{ onOpenSignUp?: () => void }> = ({ 
   };
 
   return (
-    <section className="relative w-full bg-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-zinc-200/80 overflow-hidden">
+    <section id="features" className="relative w-full bg-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-zinc-200/80 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         
         {/* Section Header */}

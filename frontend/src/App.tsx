@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from './lib/types';
-import { getStoredUser, clearAuthToken } from './lib/api';
+import { getStoredUser, getAuthToken, setAuthToken, setStoredUser, clearAuthToken } from './lib/api';
 import { HeroSection } from './components/HeroSection';
 import { GumloopTrustWall } from './components/GumloopTrustWall';
 import { GumloopAgentShowcase } from './components/GumloopAgentShowcase';
@@ -9,6 +9,7 @@ import { GumloopMeetYourTeam } from './components/GumloopMeetYourTeam';
 import { GumloopBuiltByOne } from './components/GumloopBuiltByOne';
 import { GumloopOptimizeSection } from './components/GumloopOptimizeSection';
 import { GumloopEnterpriseControls } from './components/GumloopEnterpriseControls';
+import { PricingSection } from './components/PricingSection';
 import { GumloopTestimonials } from './components/GumloopTestimonials';
 import { GumloopRecentlyShipped } from './components/GumloopRecentlyShipped';
 import { GumloopFinalCta } from './components/GumloopFinalCta';
@@ -17,8 +18,23 @@ import { AuthModals } from './components/AuthModals';
 import { FullChatboxWorkspace } from './components/FullChatboxWorkspace';
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [viewMode, setViewMode] = useState<'landing' | 'app'>('landing');
+  // Synchronous lazy initialization: if authenticated in localStorage or OAuth params in URL, start immediately in 'app' mode
+  const [user, setUser] = useState<User | null>(() => getStoredUser());
+  const [viewMode, setViewMode] = useState<'landing' | 'app'>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('auth_token') || params.get('auth_user')) {
+        return 'app';
+      }
+      const stored = getStoredUser();
+      const token = getAuthToken();
+      if (stored && token) {
+        return 'app';
+      }
+    }
+    return 'landing';
+  });
+
   const [authModal, setAuthModal] = useState<{ isOpen: boolean; mode: 'signin' | 'signup' }>({
     isOpen: false,
     mode: 'signin'
@@ -34,11 +50,11 @@ export default function App() {
     if (urlToken && urlUser) {
       try {
         const parsedUser = JSON.parse(decodeURIComponent(urlUser));
-        localStorage.setItem('wavey_auth_token', urlToken);
-        localStorage.setItem('wavey_user', JSON.stringify(parsedUser));
+        setAuthToken(urlToken);
+        setStoredUser(parsedUser);
         setUser(parsedUser);
         setViewMode('app');
-        // Clean URL params without reload
+        // Clean URL params without page reload
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
       } catch (e) {
@@ -46,9 +62,10 @@ export default function App() {
       }
     }
 
-    // 2. Check stored authenticated user: if user exists, go straight to chat app
+    // 2. Validate stored authenticated user on mount
     const stored = getStoredUser();
-    if (stored) {
+    const token = getAuthToken();
+    if (stored && token) {
       setUser(stored);
       setViewMode('app');
     }
@@ -77,6 +94,14 @@ export default function App() {
     setViewMode('landing');
   };
 
+  const handleSelectPlan = (_plan: string) => {
+    if (!user) {
+      setAuthModal({ isOpen: true, mode: 'signup' });
+    } else {
+      setViewMode('app');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white flex flex-col justify-between">
       
@@ -95,10 +120,10 @@ export default function App() {
         />
       ) : (
         <>
-          {/* Gumloop.com Completely Redesigned Landing Page Flow */}
+          {/* Landing Page Content Flow */}
           <main className="flex-1">
             
-            {/* 1. Hero Section: "Build, share, optimize & control agents" */}
+            {/* 1. Hero Section */}
             <HeroSection 
               onSendMessage={handleHeroSendMessage}
               user={user}
@@ -129,20 +154,23 @@ export default function App() {
             {/* 8. "Enterprise-grade controls" (9-Card Bento Grid) */}
             <GumloopEnterpriseControls />
 
-            {/* 9. "In agents, they trust" (Customer Case Studies) */}
+            {/* 9. Comprehensive Pricing & Plans Section */}
+            <PricingSection onSelectPlan={handleSelectPlan} />
+
+            {/* 10. "In agents, they trust" (Customer Case Studies) */}
             <GumloopTestimonials />
 
-            {/* 10. "Recently shipped" (Horizontal Changelog Timeline) */}
+            {/* 11. "Recently shipped" (Horizontal Changelog Timeline) */}
             <GumloopRecentlyShipped />
 
-            {/* 11. "Build your team of agents" (Final High-Conversion CTA) */}
+            {/* 12. "Build your team of agents" (Final High-Conversion CTA) */}
             <GumloopFinalCta 
               onOpenSignUp={() => setAuthModal({ isOpen: true, mode: 'signup' })}
               onOpenSignIn={() => setAuthModal({ isOpen: true, mode: 'signin' })}
             />
           </main>
 
-          {/* 12. Modern Multi-Column Footer */}
+          {/* 13. Modern Multi-Column Footer */}
           <GumloopFooter />
         </>
       )}

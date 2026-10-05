@@ -84,7 +84,7 @@ export const GumloopRecentlyShipped: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full bg-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-zinc-200/80">
+    <section id="changelog" className="relative w-full bg-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-zinc-200/80">
       <div className="max-w-6xl mx-auto">
         
         {/* Header with Changelog Link & Navigation Arrows */}
