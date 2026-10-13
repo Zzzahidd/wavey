@@ -170,7 +170,7 @@ export const DeveloperIntelligenceBento: React.FC = () => {
                 {[
                   { name: 'refund_policy_judge', type: 'LLM judge', pass: 97, change: '+1.2', changeColor: 'text-emerald-600' },
                   { name: 'tone_and_empathy', type: 'LLM judge', pass: 94, change: '+3.8', changeColor: 'text-emerald-600' },
-                  { name: 'no_pii_leak', type: 'Regex', pass: 100, change: '—', changeColor: 'text-zinc-400' },
+                  { name: 'no_pii_leak', type: 'Regex', pass: 100, change: '-', changeColor: 'text-zinc-400' },
                   { name: 'escalation_correct', type: 'Human label', pass: 88, change: '+4.1', changeColor: 'text-emerald-600' },
                   { name: 'latency_under_3s', type: 'Metric', pass: 83, change: '-1.6', changeColor: 'text-rose-600' },
                 ].map(evaluator => (

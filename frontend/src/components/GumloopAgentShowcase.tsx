@@ -66,7 +66,7 @@ const TABS: TabConfig[] = [
       { name: 'Enterprise Expansion', account: 'Meridian Health', stage: 'Negotiation', amount: '$142,000', closeDate: 'Mar 18', probability: 80, owner: 'Marcus Webb', status: 'healthy' },
       { name: 'Platform Rollout', account: 'Torchlight Systems', stage: 'Proposal Sent', amount: '$98,500', closeDate: 'Mar 24', probability: 55, owner: 'Katherine Duh', status: 'stalled' },
       { name: 'Annual Renewal + Upsell', account: 'Castleford Inc.', stage: 'Contract Review', amount: '$76,000', closeDate: 'Mar 14', probability: 90, owner: 'Priya Nair', status: 'healthy' },
-      { name: 'New Logo — Fintech', account: 'Vantage Capital', stage: 'Discovery', amount: '$210,000', closeDate: 'Mar 28', probability: 25, owner: 'James Holloway', status: 'at-risk' },
+      { name: 'New Logo - Fintech', account: 'Vantage Capital', stage: 'Discovery', amount: '$210,000', closeDate: 'Mar 28', probability: 25, owner: 'James Holloway', status: 'at-risk' },
       { name: 'SMB Bundle', account: 'Oaktree Retail', stage: 'Demo Scheduled', amount: '$31,200', closeDate: 'Mar 31', probability: 40, owner: 'Katherine Duh', status: 'at-risk' }
     ],
     watchlist: [

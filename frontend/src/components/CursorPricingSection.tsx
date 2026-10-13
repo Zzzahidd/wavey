@@ -92,7 +92,7 @@ export const CursorPricingSection: React.FC<CursorPricingSectionProps> = ({ onSe
             </div>
           </div>
 
-          {/* Pro ($20) — Featured Card */}
+          {/* Pro ($20) - Featured Card */}
           <div 
             onMouseMove={(e) => handleMouseMove('pro', e)}
             className="relative p-1.5 bg-zinc-900 rounded-3xl border border-zinc-900 shadow-md flex flex-col justify-between group overflow-hidden"

@@ -29,7 +29,7 @@ export const FernandTeamGrid: React.FC = () => {
                 <div className="w-14 h-14 rounded-2xl bg-white border border-zinc-200 shadow-2xs flex items-center justify-center text-zinc-900 font-bold">
                   <GitBranch className="w-6 h-6 text-zinc-900" />
                 </div>
-                <span className="text-zinc-400 font-light text-xl">—</span>
+                <span className="text-zinc-400 font-light text-xl">-</span>
                 <div className="w-14 h-14 rounded-2xl bg-[#111111] shadow-2xs flex items-center justify-center text-white font-bold">
                   <Layers className="w-6 h-6 text-white" />
                 </div>

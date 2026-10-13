@@ -1,4 +1,4 @@
-# Pricing — Wavey
+# Pricing - Wavey
 
 ## Free
 - Price: $0/month

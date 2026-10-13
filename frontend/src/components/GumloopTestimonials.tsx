@@ -18,7 +18,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     company: 'Gusto',
     category: 'Fintech & Payroll',
     metric: '$1.5M+ Additional ARR in 3 months',
-    quote: 'The partnership review agent cuts prep time from 30–45 minutes per customer to under five minutes, and it results in a 31% higher win rate and 44% larger deals.',
+    quote: 'The partnership review agent cuts prep time from 30-45 minutes per customer to under five minutes, and it results in a 31% higher win rate and 44% larger deals.',
     author: 'Matt Gould',
     role: 'Head of Insights and Operations, Gusto'
   },
@@ -27,7 +27,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     company: 'Instacart',
     category: 'Retail & Delivery',
     metric: '100% Non-Technical AI Adoption',
-    quote: 'Gumloop has been critical in helping all teams at Instacart — including those without technical skills — adopt AI and automate their workflows, which has greatly improved our operational efficiency.',
+    quote: 'Gumloop has been critical in helping all teams at Instacart - including those without technical skills - adopt AI and automate their workflows, which has greatly improved our operational efficiency.',
     author: 'Fidji Simo',
     role: 'CEO, Instacart'
   },

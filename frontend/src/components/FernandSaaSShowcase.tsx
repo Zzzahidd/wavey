@@ -179,7 +179,7 @@ export const FernandSaaSShowcase: React.FC = () => {
                     <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
                       <div className="flex items-center gap-2">
                         <GitBranch className="w-4 h-4 text-zinc-700" />
-                        <span className="text-xs font-bold text-zinc-900">PR #248 — Session Token Invariants</span>
+                        <span className="text-xs font-bold text-zinc-900">PR #248 - Session Token Invariants</span>
                       </div>
                       <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-zinc-900 text-white">
                         {refundAnimStep >= 2 ? 'MERGE READY' : refundAnimStep >= 1 ? 'VERIFIED' : 'ANALYZING'}

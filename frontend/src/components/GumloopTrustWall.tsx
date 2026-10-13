@@ -248,7 +248,7 @@ export const GumloopTrustWall: React.FC = () => {
                 “{activeCompany.quote}”
               </blockquote>
               <div className="mt-3 text-xs text-zinc-600 font-medium">
-                <strong className="text-zinc-900">{activeCompany.author}</strong> — {activeCompany.role}
+                <strong className="text-zinc-900">{activeCompany.author}</strong> - {activeCompany.role}
               </div>
             </div>
 
